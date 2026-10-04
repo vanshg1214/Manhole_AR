@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sauna Bath Cabin - Premium AR Showcase</title>
+    <title>ManHole Cover - Premium AR Showcase</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,14 +11,14 @@
   <body>
     <div id="app">
       <header class="app-header">
-        <h1>SAUNA BATH CABIN</h1>
+        <h1>MANHOLE COVER</h1>
       </header>
       
       <main class="product-layout">
         <!-- Main Model Viewer Card -->
         <div class="product-card">
           <model-viewer
-            src="models/sauna_product_model-compressed.glb"
+            src="models/cap_black_metal_textured%20(10).glb"
             ar
             ar-modes="scene-viewer quick-look"
             ar-scale="fixed"
@@ -34,94 +34,25 @@
             camera-orbit="0deg 75deg auto"
             min-camera-orbit="auto auto auto"
             max-camera-orbit="auto auto auto"
-            alt="Sauna Bath Cabin in AR"
+            alt="ManHole Cover in AR"
           >
             <div slot="poster" class="loading-overlay">
               <div class="spinner-container">
                 <div class="sauna-spinner"></div>
-                <p class="loading-text">Assembling Cabin...</p>
+                <p class="loading-text">Loading Model...</p>
               </div>
             </div>
             <!-- Hidden slot button (model-viewer still requires it for activateAR) -->
             <button slot="ar-button" style="display: none;"></button>
 
-            <!-- Hotspots -->
-            <button class="Hotspot" slot="hotspot-wood" data-position="0.75 1.1 -0.2" data-normal="1 0 0" data-visibility-attribute="visible">
-              <div class="HotspotAnnotation">
-                <div class="HotspotHeader">
-                  <h3>Premium Lumber</h3>
-                  <span class="HotspotClose">&times;</span>
-                </div>
-                <p>Built with select Grade-A Canadian Red Cedar. Chosen for its beautiful grain, structural durability, and aromatic qualities.</p>
-                <div class="HotspotMaterial">
-                  <span class="MaterialLabel">Material Spec</span>
-                  <span class="MaterialValue">Kiln-Dried Red Cedar</span>
-                </div>
-              </div>
-            </button>
-
-            <button class="Hotspot" slot="hotspot-glass" data-position="-0.3 1.2 0.76" data-normal="0 0 1" data-visibility-attribute="visible">
-              <div class="HotspotAnnotation">
-                <div class="HotspotHeader">
-                  <h3>Panoramic Glass</h3>
-                  <span class="HotspotClose">&times;</span>
-                </div>
-                <p>Architectural double-pane glass front panel offers a seamless visual connection with nature while sealing in heat efficiently.</p>
-                <div class="HotspotMaterial">
-                  <span class="MaterialLabel">Glass Spec</span>
-                  <span class="MaterialValue">8mm Tempered Safety Glass</span>
-                </div>
-              </div>
-            </button>
-
-            <button class="Hotspot" slot="hotspot-control" data-position="-0.65 1.4 0.65" data-normal="-0.5 0 0.86" data-visibility-attribute="visible">
-              <div class="HotspotAnnotation">
-                <div class="HotspotHeader">
-                  <h3>Smart Controller</h3>
-                  <span class="HotspotClose">&times;</span>
-                </div>
-                <p>Control the entire wellness environment: adjust heat, session timers, and play acoustic ambient audio via high-fidelity speakers.</p>
-                <div class="HotspotMaterial">
-                  <span class="MaterialLabel">Interface Spec</span>
-                  <span class="MaterialValue">Smart Hub & Bluetooth 5.0</span>
-                </div>
-              </div>
-            </button>
-
-            <button class="Hotspot" slot="hotspot-lighting" data-position="0.0 2.2 0.0" data-normal="0 -1 0" data-visibility-attribute="visible">
-              <div class="HotspotAnnotation">
-                <div class="HotspotHeader">
-                  <h3>Chromotherapy</h3>
-                  <span class="HotspotClose">&times;</span>
-                </div>
-                <p>Dimmable RGB LED ceiling strips supply soft, diffused lighting designed to align with bodily bio-rhythms and deepen relaxation.</p>
-                <div class="HotspotMaterial">
-                  <span class="MaterialLabel">Lighting Spec</span>
-                  <span class="MaterialValue">RGB LED / App Controlled</span>
-                </div>
-              </div>
-            </button>
-
-            <button class="Hotspot" slot="hotspot-heater" data-position="0.4 0.6 -0.4" data-normal="0 1 0" data-visibility-attribute="visible">
-              <div class="HotspotAnnotation">
-                <div class="HotspotHeader">
-                  <h3>Electric Stove</h3>
-                  <span class="HotspotClose">&times;</span>
-                </div>
-                <p>Premium 6.0kW stainless steel stove loaded with volcanic rocks. Provides rapid heating up to 90°C (194°F) and soft humid steam.</p>
-                <div class="HotspotMaterial">
-                  <span class="MaterialLabel">Stove Spec</span>
-                  <span class="MaterialValue">Harvia™ 6.0kW / Olivine Stones</span>
-                </div>
-              </div>
-            </button>
+            <!-- Hotspots removed -->
           </model-viewer>
         </div>
 
         <!-- Floating Custom AR Button (Positioned OUTSIDE the model window card) -->
         <div class="ar-action-container">
           <button id="custom-ar-btn" class="ar-button-external">
-            View cabin in your space
+            View cover in your space
           </button>
         </div>
       </main>
@@ -131,7 +62,7 @@
         <div class="modal-content">
           <button id="modal-close" class="close-btn">&times;</button>
           <div class="modal-header">
-            <h3>View cabin in your space</h3>
+            <h3>View cover in your space</h3>
             <p class="qr-explanation">Spatial 3D AR viewing is supported on smartphones and tablets only.</p>
           </div>
           <div class="qr-wrapper">
@@ -148,7 +79,7 @@
             </div>
             <div class="instruction-step">
               <span class="step-num">3</span>
-              <span>Tap "View cabin in your space" to place the 1:1 scale model.</span>
+              <span>Tap "View cover in your space" to place the 1:1 scale model.</span>
             </div>
           </div>
         </div>
