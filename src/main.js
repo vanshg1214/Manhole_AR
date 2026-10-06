@@ -21,6 +21,36 @@ modelViewer.addEventListener('load', () => {
 });
 
 /* ==========================================================================
+   Open Lid button (website only)
+   The GLB clip is: 5s closed -> open -> hold -> close. AR viewers loop it
+   as-is; on the page we skip the 5s wait and play the rest once.
+   ========================================================================== */
+
+const lidBtn = document.getElementById('lid-btn');
+const LID_WAIT = 5;
+let lidTimer = null;
+
+function resetLid() {
+  clearTimeout(lidTimer);
+  modelViewer.pause();
+  modelViewer.currentTime = 0;
+  lidBtn.disabled = false;
+  lidBtn.textContent = 'Open Lid';
+}
+
+lidBtn.addEventListener('click', () => {
+  lidBtn.disabled = true;
+  lidBtn.textContent = 'Opening...';
+  modelViewer.play({ repetitions: 1 });
+  // Jump past the 5s closed wait once playback has started
+  modelViewer.currentTime = LID_WAIT;
+  // Fallback in case the 'finished' event does not fire
+  lidTimer = setTimeout(resetLid, (modelViewer.duration - LID_WAIT) * 1000 + 500);
+});
+
+modelViewer.addEventListener('finished', resetLid);
+
+/* ==========================================================================
    AR Trigger & QR Modal Control (External Button)
    ========================================================================== */
 
