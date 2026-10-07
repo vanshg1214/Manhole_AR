@@ -1,0 +1,314 @@
+[
+  {
+    "id": "3-x-24-inch-ci-cover-and-frame",
+    "name": "3 X 24 INCH CI COVER & FRAME",
+    "category": "Covers & Frames",
+    "file": "3-x-24-inch-ci-cover-and-frame.glb",
+    "load": null,
+    "dims": [
+      706,
+      711,
+      114
+    ],
+    "kb": 826
+  },
+  {
+    "id": "24-inch-plain-braker-ring",
+    "name": "24 INCH PLAIN BRAKER RING",
+    "category": "Accessories",
+    "file": "24-inch-plain-braker-ring.glb",
+    "load": null,
+    "dims": [
+      631,
+      631,
+      16
+    ],
+    "kb": 114
+  },
+  {
+    "id": "24-inch-plain-wheel",
+    "name": "24 INCH PLAIN WHEEL",
+    "category": "Accessories",
+    "file": "24-inch-plain-wheel.glb",
+    "load": null,
+    "dims": [
+      600,
+      604,
+      77
+    ],
+    "kb": 124
+  },
+  {
+    "id": "214-x-214-c250-hinge-grate-and-frm",
+    "name": "214 X 214 C250 HINGE GRATE & FRM",
+    "category": "Gratings & Channels",
+    "file": "214-x-214-c250-hinge-grate-and-frm.glb",
+    "load": "C250",
+    "dims": [
+      300,
+      300,
+      82
+    ],
+    "kb": 1232
+  },
+  {
+    "id": "360-x-310-c250-hinge-grate-and-frame",
+    "name": "360 X 310 C250 HINGE GRATE & FRAME",
+    "category": "Gratings & Channels",
+    "file": "360-x-310-c250-hinge-grate-and-frame.glb",
+    "load": "C250",
+    "dims": [
+      515,
+      412,
+      94
+    ],
+    "kb": 1238
+  },
+  {
+    "id": "420-x-420-d400-grate-and-frame",
+    "name": "420 X 420 D400 GRATE & FRAME",
+    "category": "Gratings & Channels",
+    "file": "420-x-420-d400-grate-and-frame.glb",
+    "load": "D400",
+    "dims": [
+      570,
+      505,
+      178
+    ],
+    "kb": 990
+  },
+  {
+    "id": "450-dia-b125-cvr-and-frm",
+    "name": "450 DIA B125 CVR & FRM",
+    "category": "Covers & Frames",
+    "file": "450-dia-b125-cvr-and-frm.glb",
+    "load": "B125",
+    "dims": [
+      545,
+      545,
+      61
+    ],
+    "kb": 708
+  },
+  {
+    "id": "600-dia-b125-cvr-and-frm",
+    "name": "600 DIA B125 CVR & FRM",
+    "category": "Covers & Frames",
+    "file": "600-dia-b125-cvr-and-frm.glb",
+    "load": "B125",
+    "dims": [
+      685,
+      685,
+      100
+    ],
+    "kb": 816
+  },
+  {
+    "id": "600-dia-d400-circular-cvr-and-frm",
+    "name": "600 DIA D400 CIRCULAR CVR & FRM",
+    "category": "Covers & Frames",
+    "file": "600-dia-d400-circular-cvr-and-frm.glb",
+    "load": "D400",
+    "dims": [
+      800,
+      863,
+      198
+    ],
+    "kb": 1416
+  },
+  {
+    "id": "600-x-600-b125-cvr-and-frm",
+    "name": "600 X 600 B125 CVR & FRM",
+    "category": "Covers & Frames",
+    "file": "600-x-600-b125-cvr-and-frm.glb",
+    "load": "B125",
+    "dims": [
+      690,
+      690,
+      73
+    ],
+    "kb": 1216
+  },
+  {
+    "id": "600-x-600-d400-dt-grate-and-frame",
+    "name": "600 X 600 D400 DT GRATE & FRAME",
+    "category": "Gratings & Channels",
+    "file": "600-x-600-d400-dt-grate-and-frame.glb",
+    "load": "D400",
+    "dims": [
+      849,
+      770,
+      187
+    ],
+    "kb": 1175
+  },
+  {
+    "id": "600-x-600-ds-recess-cover-and-frame",
+    "name": "600 X 600 DS RECESS COVER & FRAME",
+    "category": "Covers & Frames",
+    "file": "600-x-600-ds-recess-cover-and-frame.glb",
+    "load": null,
+    "dims": [
+      750,
+      750,
+      190
+    ],
+    "kb": 434
+  },
+  {
+    "id": "600-x-600-x-100-d400-dt-cover-and-frame",
+    "name": "600 X 600 X 100 D400 DT COVER & FRAME",
+    "category": "Covers & Frames",
+    "file": "600-x-600-x-100-d400-dt-cover-and-frame.glb",
+    "load": "D400",
+    "dims": [
+      845,
+      771,
+      145
+    ],
+    "kb": 1284
+  },
+  {
+    "id": "750-x-245-co-d400-grate-and-channel",
+    "name": "750 X 245 CO D400 GRATE & CHANNEL",
+    "category": "Gratings & Channels",
+    "file": "750-x-245-co-d400-grate-and-channel.glb",
+    "load": "D400",
+    "dims": [
+      750,
+      750,
+      120
+    ],
+    "kb": 757
+  },
+  {
+    "id": "1000-x-150-d400-grating-and-ms-rail",
+    "name": "1000 X 150 D400 GRATING & MS RAIL",
+    "category": "Gratings & Channels",
+    "file": "1000-x-150-d400-grating-and-ms-rail.glb",
+    "load": "D400",
+    "dims": [
+      498,
+      1010,
+      200
+    ],
+    "kb": 1793
+  },
+  {
+    "id": "1000-x-1000-ms-grating",
+    "name": "1000 X 1000 MS GRATING",
+    "category": "Gratings & Channels",
+    "file": "1000-x-1000-ms-grating.glb",
+    "load": null,
+    "dims": [
+      1000,
+      1000,
+      30
+    ],
+    "kb": 101
+  },
+  {
+    "id": "1220-x-675-d400-dt-cvr-and-frm",
+    "name": "1220 X 675 D400 DT CVR & FRM",
+    "category": "Covers & Frames",
+    "file": "1220-x-675-d400-dt-cvr-and-frm.glb",
+    "load": "D400",
+    "dims": [
+      1365,
+      820,
+      225
+    ],
+    "kb": 1413
+  },
+  {
+    "id": "3300-grate-frame-and-hood",
+    "name": "3300 GRATE FRAME & HOOD",
+    "category": "Gratings & Channels",
+    "file": "3300-grate-frame-and-hood.glb",
+    "load": null,
+    "dims": [
+      993,
+      864,
+      382
+    ],
+    "kb": 214
+  },
+  {
+    "id": "4056-surface-box",
+    "name": "4056 SURFACE BOX",
+    "category": "Accessories",
+    "file": "4056-surface-box.glb",
+    "load": null,
+    "dims": [
+      238,
+      240,
+      258
+    ],
+    "kb": 400
+  },
+  {
+    "id": "counter-weight-32-kg",
+    "name": "COUNTER WEIGHT 32 KG",
+    "category": "Accessories",
+    "file": "counter-weight-32-kg.glb",
+    "load": null,
+    "dims": [
+      514,
+      62,
+      352
+    ],
+    "kb": 536
+  },
+  {
+    "id": "ms-frame",
+    "name": "MS FRAME",
+    "category": "Covers & Frames",
+    "file": "ms-frame.glb",
+    "load": null,
+    "dims": [
+      3010,
+      1676,
+      203
+    ],
+    "kb": 70
+  },
+  {
+    "id": "ms-recess-type-cover",
+    "name": "MS RECESS TYPE COVER",
+    "category": "Covers & Frames",
+    "file": "ms-recess-type-cover.glb",
+    "load": null,
+    "dims": [
+      1489,
+      565,
+      254
+    ],
+    "kb": 30
+  },
+  {
+    "id": "ms-revit-grating",
+    "name": "MS REVIT GRATING",
+    "category": "Gratings & Channels",
+    "file": "ms-revit-grating.glb",
+    "load": null,
+    "dims": [
+      1311,
+      89,
+      114
+    ],
+    "kb": 151
+  },
+  {
+    "id": "tree-grate-and-frame",
+    "name": "TREE GRATE & FRAME",
+    "category": "Gratings & Channels",
+    "file": "tree-grate-and-frame.glb",
+    "load": null,
+    "dims": [
+      1256,
+      640,
+      112
+    ],
+    "kb": 911
+  }
+]

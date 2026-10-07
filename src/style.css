@@ -649,3 +649,81 @@ model-viewer.has-active-hotspot .Hotspot:not(.active) {
     transform: scale(1);
   }
 }
+
+/* ==========================================================================
+   Action bar: Open Lid | View in your space | See full catalogue
+   Desktop: one centred row. Phones / small tablets: AR button on top, full width,
+   with the two secondary buttons side by side underneath.
+   ========================================================================== */
+.action-bar {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.action-bar .ar-button-external {
+  white-space: nowrap;
+  font-size: 1.05rem;
+  padding: 14px 28px;
+}
+
+.action-bar .btn-primary {
+  min-width: 260px;
+}
+
+.action-bar .btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: none;
+  color: var(--text-main);
+}
+
+.action-bar .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.action-bar .btn-secondary:disabled {
+  opacity: 0.55;
+  background: rgba(255, 255, 255, 0.04);
+  transform: none;
+}
+
+.action-bar .catalogue-button::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>');
+}
+
+@media (max-width: 720px) {
+  .action-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 2px env(safe-area-inset-bottom, 0px);
+  }
+  .action-bar .btn-primary {
+    grid-column: 1 / -1;
+    order: -1;
+    min-width: 0;
+    font-size: 1.05rem;
+    padding: 14px 16px;
+  }
+  .action-bar .btn-secondary {
+    font-size: 0.9rem;
+    padding: 12px 8px;
+    gap: 7px;
+  }
+  .action-bar .ar-button-external::before {
+    width: 17px;
+    height: 17px;
+    flex: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .action-bar .btn-secondary { font-size: 0.82rem; gap: 5px; }
+}

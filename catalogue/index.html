@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Catalogue | Binayak</title>
+    <meta name="description" content="Browse the full product range in 3D and view each product in your space with AR." />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./catalogue.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="back-link" href="../" aria-label="Back to home">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+          <span>Home</span>
+        </a>
+        <h1 class="brand">Product Catalogue</h1>
+        <span class="topbar-spacer"></span>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="grid" id="grid" aria-label="Products"></section>
+    </main>
+
+    <!-- Shown only on devices without AR (desktop): hands the product over to a phone/tablet -->
+    <div class="qr-backdrop" id="qr-modal" hidden>
+      <div class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qr-title">
+        <button class="qr-close" id="qr-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+        <h2 id="qr-title">View in your space</h2>
+        <p>AR works on phones and tablets. Scan this code with your device camera.</p>
+        <img id="qr-img" alt="QR code to open this product on your phone or tablet" width="220" height="220" />
+      </div>
+    </div>
+
+    <script type="module" src="./catalogue.js"></script>
+  </body>
+</html>

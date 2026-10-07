@@ -28,10 +28,11 @@
             auto-rotate
             environment-image="neutral"
             exposure="1.2"
-            camera-target="auto auto auto"
-            camera-orbit="0deg 75deg auto"
+            camera-target="0m 0.3m 0m"
+            camera-orbit="0deg 75deg 2m"
             min-camera-orbit="auto auto auto"
-            max-camera-orbit="auto auto auto"
+            max-camera-orbit="auto auto 3.5m"
+            interpolation-decay="120"
             alt="ManHole Cover in AR"
           >
             <div slot="poster" class="loading-overlay">
@@ -47,14 +48,11 @@
           </model-viewer>
         </div>
 
-        <!-- Floating Custom AR Button (Positioned OUTSIDE the model window card) -->
-        <div class="ar-action-container">
-          <button id="lid-btn" class="ar-button-external lid-button">
-            Open Lid
-          </button>
-          <button id="custom-ar-btn" class="ar-button-external">
-            View cover in your space
-          </button>
+        <!-- Action Buttons: AR is the primary action; lid + catalogue are secondary -->
+        <div class="action-bar">
+          <button id="lid-btn" class="ar-button-external btn-secondary lid-button" type="button">Open Lid</button>
+          <button id="custom-ar-btn" class="ar-button-external btn-primary" type="button">View in your space</button>
+          <button id="see-catalogue-btn" class="ar-button-external btn-secondary catalogue-button" type="button">See full catalogue</button>
         </div>
       </main>
 
@@ -85,6 +83,24 @@
           </div>
         </div>
       </div>
+
+      <!-- Lead Generation Form Modal -->
+      <div id="lead-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px; text-align: left;">
+          <button id="lead-close" class="close-btn">&times;</button>
+          <div class="modal-header" style="text-align: center;">
+            <h3>Access Full Catalogue</h3>
+            <p style="margin-top: 10px; color: #a1a1aa;">Please share your details to explore our complete 3D AR product range.</p>
+          </div>
+          <form id="lead-form" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+            <input type="text" id="lead-name" placeholder="Full Name" required style="padding: 12px; border-radius: 8px; border: 1px solid #3f3f46; background: #27272a; color: white;">
+            <input type="email" id="lead-email" placeholder="Email Address" required style="padding: 12px; border-radius: 8px; border: 1px solid #3f3f46; background: #27272a; color: white;">
+            <input type="tel" id="lead-phone" placeholder="Phone Number" required style="padding: 12px; border-radius: 8px; border: 1px solid #3f3f46; background: #27272a; color: white;">
+            <button type="submit" class="ar-button-external" style="width: 100%; margin-top: 10px;">Get Access</button>
+          </form>
+        </div>
+      </div>
+
     </div>
     <script type="module" src="src/main.js"></script>
   </body>
