@@ -24,7 +24,7 @@
             ar-scale="fixed"
             ar-placement="floor"
             camera-controls
-            touch-action="pan-y"
+            touch-action="none"
             auto-rotate
             environment-image="neutral"
             exposure="1.2"
@@ -86,17 +86,17 @@
 
       <!-- Lead Generation Form Modal -->
       <div id="lead-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 400px; text-align: left;">
+        <div class="modal-content modal-narrow">
           <button id="lead-close" class="close-btn">&times;</button>
-          <div class="modal-header" style="text-align: center;">
+          <div class="modal-header center">
             <h3>Access Full Catalogue</h3>
-            <p style="margin-top: 10px; color: #a1a1aa;">Please share your details to explore our complete 3D AR product range.</p>
+            <p class="qr-explanation">Please share your details to explore our complete 3D AR product range.</p>
           </div>
-          <form id="lead-form" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-            <input type="text" id="lead-name" placeholder="Full Name" required style="padding: 12px; border-radius: 8px; border: 1px solid #3f3f46; background: #27272a; color: white;">
-            <input type="email" id="lead-email" placeholder="Email Address" required style="padding: 12px; border-radius: 8px; border: 1px solid #3f3f46; background: #27272a; color: white;">
-            <input type="tel" id="lead-phone" placeholder="Phone Number" required style="padding: 12px; border-radius: 8px; border: 1px solid #3f3f46; background: #27272a; color: white;">
-            <button type="submit" class="ar-button-external" style="width: 100%; margin-top: 10px;">Get Access</button>
+          <form id="lead-form" class="lead-form">
+            <input type="text" id="lead-name" placeholder="Full Name" required autocomplete="name">
+            <input type="email" id="lead-email" placeholder="Email Address" required autocomplete="email">
+            <input type="tel" id="lead-phone" placeholder="Phone Number" required autocomplete="tel">
+            <button type="submit" class="ar-button-external">Get Access</button>
           </form>
         </div>
       </div>

@@ -33,7 +33,11 @@ const preloader = new IntersectionObserver(
   (entries) => {
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
-      en.target.__mv.loading = 'eager';
+      const mv = en.target.__mv;
+      // As soon as the model has loaded, swap the poster for the live 3D model so the very first
+      // finger movement rotates it (no separate "activate" step).
+      mv.addEventListener('load', () => mv.dismissPoster(), { once: true });
+      mv.loading = 'eager';
       preloader.unobserve(en.target);
     });
   },
@@ -67,10 +71,13 @@ function createCard(p) {
   mv.setAttribute('reveal', 'interaction');
   mv.setAttribute('loading', 'lazy');
   mv.setAttribute('camera-controls', '');
-  mv.setAttribute('touch-action', 'pan-y');
+  mv.setAttribute('touch-action', 'none'); // one finger rotates freely in every direction
   mv.setAttribute('environment-image', 'neutral');
-  mv.setAttribute('exposure', '2.2');
+  mv.setAttribute('exposure', '2.6'); // same lighting as the poster thumbnails
+  mv.setAttribute('tone-mapping', 'neutral');
   mv.setAttribute('camera-orbit', '35deg 62deg auto');
+  mv.setAttribute('min-camera-orbit', 'auto 5deg auto'); // keep the view above the floor
+  mv.setAttribute('max-camera-orbit', 'auto 92deg auto');
   mv.setAttribute('interaction-prompt', 'none');
   mv.setAttribute('disable-zoom', ''); // mouse wheel keeps scrolling the page; dragging still rotates
   // AR: native Scene Viewer (Android) / Quick Look (iPhone + iPad) at true 1:1 scale on the floor
@@ -84,9 +91,16 @@ function createCard(p) {
   mv.appendChild(hidden);
   media.appendChild(mv);
 
+  const hint = document.createElement('span');
+  hint.className = 'drag-hint';
+  hint.textContent = 'Drag to rotate';
+  media.appendChild(hint);
+
   // Mouse: hovering the image switches it to the live 3D model. Touch: tapping does (reveal="interaction").
-  media.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') mv.dismissPoster(); });
-  media.addEventListener('click', () => mv.dismissPoster()); // tap on phones / tablets (also click on desktop)
+  media.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { mv.dismissPoster(); hint.remove(); } });
+  // Touch / pen: the first touch activates the 3D, so the same finger movement rotates the model.
+  media.addEventListener('pointerdown', () => { mv.dismissPoster(); hint.remove(); });
+  media.addEventListener('click', () => mv.dismissPoster());
   preloader.observe(media);
   media.__mv = mv;
 

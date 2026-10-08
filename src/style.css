@@ -1,19 +1,33 @@
+/* ==========================================================================
+   Design tokens: light, premium theme
+   Deep navy (primary) + champagne gold (accent) on a soft light-grey stage.
+   ========================================================================== */
 :root {
-  --primary: #d97706; /* Luxury Warm Bronze/Amber */
-  --primary-hover: #b45309;
-  --primary-glow: rgba(217, 119, 6, 0.4);
-  --bg-color: #0c0a09; /* Stone 950 (warm charcoal black) */
-  --card-bg: rgba(28, 25, 23, 0.55); /* Transparent warm dark */
-  --card-border: rgba(255, 255, 255, 0.07);
-  --text-main: #f5f5f4; /* Stone 100 */
-  --text-muted: #a8a29e; /* Stone 400 */
-  --font-family: 'Outfit', sans-serif;
+  --ink: #14213d;            /* deep navy: headings, primary buttons */
+  --ink-hover: #22335a;
+  --gold: #b8935a;           /* champagne gold accent */
+  --gold-soft: rgba(184, 147, 90, 0.16);
+  --bg: #f6f6f7;             /* page */
+  --surface: #ffffff;
+  --stage-1: #eceef1;        /* light-grey product stage */
+  --stage-2: #d8dce1;
+  --border: rgba(20, 33, 61, 0.1);
+  --text-main: #14213d;
+  --text-muted: #6b7280;
+  --shadow-sm: 0 2px 8px rgba(20, 33, 61, 0.06);
+  --shadow-md: 0 18px 40px -16px rgba(20, 33, 61, 0.22);
+  --font-family: 'Outfit', system-ui, sans-serif;
+
+  --icon-ar: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>');
+  --icon-lid: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path d="M5 18l-1-9 12-4 3 7"/></svg>');
+  --icon-grid: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>');
 }
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-color);
   color: var(--text-main);
   font-family: var(--font-family);
   display: flex;
@@ -21,7 +35,8 @@ body {
   align-items: center;
   height: 100dvh;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 20%, #292524 0%, #0c0a09 80%);
+  -webkit-font-smoothing: antialiased;
+  background: radial-gradient(circle at 50% 0%, #ffffff 0%, var(--bg) 70%);
 }
 
 #app {
@@ -29,7 +44,6 @@ body {
   max-width: 1200px;
   height: 100dvh;
   padding: 0.5rem 1rem;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -37,19 +51,25 @@ body {
   overflow: hidden;
 }
 
-.app-header {
-  text-align: center;
-}
+/* ---------- Header ---------- */
+.app-header { text-align: center; }
 
 .app-header h1 {
   margin: 0;
-  font-size: 2.8rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  background: linear-gradient(135deg, #f5f5f4 30%, #a8a29e 70%, #d97706 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--ink);
+}
+
+.app-header h1::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 2px;
+  margin: 0.55rem auto 0;
+  background: var(--gold);
+  border-radius: 2px;
 }
 
 .app-header p {
@@ -61,7 +81,7 @@ body {
   text-transform: uppercase;
 }
 
-/* Centered Layout */
+/* ---------- Layout ---------- */
 .product-layout {
   width: 100%;
   flex: 1;
@@ -72,37 +92,19 @@ body {
   gap: 1.5rem;
 }
 
-/* 3D Model Card */
+/* ---------- 3D model stage (light grey) ---------- */
 .product-card {
   width: 100%;
   flex: 1;
   min-height: 0;
-  background: var(--card-bg);
-  border-radius: 28px;
   padding: 0.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid var(--card-border);
-  position: relative;
-  overflow: visible;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-}
-
-/* Glowing back-light effect behind model-viewer */
-.product-card::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 75%;
-  height: 75%;
-  background: radial-gradient(circle, rgba(217, 119, 6, 0.06) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
-  z-index: 0;
-  pointer-events: none;
+  position: relative;
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  background: radial-gradient(circle at 50% 38%, var(--stage-1) 0%, var(--stage-2) 100%);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 model-viewer {
@@ -113,66 +115,63 @@ model-viewer {
   background-color: transparent;
   position: relative;
   z-index: 2;
+  --poster-color: transparent;
+  --progress-bar-color: var(--gold);
 }
 
-/* External AR Button Container */
+/* ---------- Buttons ---------- */
 .ar-action-container {
   width: 100%;
   display: flex;
   justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
   margin-bottom: 0.5rem;
 }
 
-/* Premium External AR Button (Positioned OUTSIDE the model window card) */
 .ar-button-external {
-  background-color: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: 35px;
-  padding: 14px 36px;
-  font-weight: 600;
-  font-size: 1.15rem; /* Larger, premium sizing */
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(217, 119, 6, 0.35);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  display: flex;
+  --icon: var(--icon-ar);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  padding: 14px 32px;
   font-family: var(--font-family);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #fff;
+  background-color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px -8px rgba(20, 33, 61, 0.5);
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Icons are masks, so they take the button's text colour */
+.ar-button-external::before {
+  content: '';
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
 }
 
 .ar-button-external:hover {
-  background-color: #f59e0b; /* brighter gold */
+  background-color: var(--ink-hover);
+  border-color: var(--ink-hover);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(217, 119, 6, 0.5);
+  box-shadow: 0 14px 28px -10px rgba(20, 33, 61, 0.55);
 }
 
-.ar-button-external:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
-}
+.ar-button-external:active { transform: translateY(1px); }
 
-.ar-button-external::before {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>');
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-
-/* Open Lid button: reuses the AR button look with its own icon */
-.ar-action-container {
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.ar-button-external.lid-button::before {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"></path><path d="M5 18l-1-9 12-4 3 7"></path></svg>');
+.ar-button-external:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
 }
 
 .ar-button-external:disabled {
@@ -181,480 +180,7 @@ model-viewer {
   transform: none;
 }
 
-/* Loading Overlay inside model-viewer */
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(12, 10, 9, 0.95);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  border-radius: 20px;
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.sauna-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid rgba(217, 119, 6, 0.1);
-  border-left-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  box-shadow: 0 0 20px rgba(217, 119, 6, 0.2);
-}
-
-.loading-text {
-  color: var(--text-main);
-  font-size: 1.15rem;
-  font-weight: 500;
-  margin: 0;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-/* Hotspots - Premium Look (+20% Size Enhancement) */
-.Hotspot {
-  background: var(--primary);
-  border-radius: 50%;
-  border: 2px solid #000;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-  box-sizing: border-box;
-  cursor: pointer;
-  height: 44px; /* Increased by 20% (from 36px) */
-  width: 44px;  /* Increased by 20% (from 36px) */
-  position: relative;
-  transition: opacity 0.3s, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s, border-color 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(var(--camera-scale, 1));
-  transform-origin: center center;
-  z-index: 10;
-}
-
-.Hotspot:not([data-visible]) {
-  background: transparent;
-  border: 2px solid var(--primary);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-.Hotspot:focus {
-  outline: none;
-}
-
-.Hotspot::after {
-  content: "+";
-  font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 24px; /* Increased by 20% (from 20px) */
-  color: #fff;
-  transition: transform 0.3s ease;
-}
-
-.Hotspot.active::after {
-  transform: rotate(45deg);
-}
-
-/* Outer Glow Ring for Hotspot Pulsing */
-.Hotspot::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  border-radius: 50%;
-  border: 1.5px solid var(--primary);
-  opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
-  pointer-events: none;
-  box-sizing: border-box;
-}
-
-.Hotspot.active::before {
-  animation: hotspot-pulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
-  opacity: 1;
-}
-
-@keyframes hotspot-pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1.7);
-    opacity: 0;
-  }
-}
-
-.Hotspot:hover {
-  transform: scale(calc(var(--camera-scale, 1) * 1.15));
-  background-color: #f59e0b;
-  box-shadow: 0 0 20px rgba(217, 119, 6, 0.6);
-}
-
-.Hotspot.active {
-  background-color: #000;
-  border-color: var(--primary);
-  box-shadow: 0 0 25px rgba(217, 119, 6, 0.5);
-}
-
-model-viewer.has-active-hotspot .Hotspot:not(.active) {
-  opacity: 0.15;
-  box-shadow: none;
-}
-
-/* Glassmorphic Hotspot Card (+20% Size Enhancement) */
-.HotspotAnnotation {
-  position: absolute;
-  bottom: calc(100% + 16px);
-  left: 50%;
-  transform: translateX(-50%) translateY(12px) scale(0.95);
-  transform-origin: bottom center;
-  width: min(410px, calc(100vw - 40px)); /* Increased by 20% (from 340px) */
-  background: rgba(24, 20, 18, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  padding: 22px; /* Increased by ~20% (from 18px) */
-  color: var(--text-main);
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.3s;
-  text-align: left;
-  z-index: 1000;
-  box-sizing: border-box;
-}
-
-/* Hotspot Card Arrow */
-.HotspotAnnotation::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: calc(50% - var(--shift-x, 0px));
-  transform: translateX(-50%);
-  border-width: 10px;
-  border-style: solid;
-  border-color: rgba(24, 20, 18, 0.92) transparent transparent transparent;
-}
-
-/* Flipped state if hotspot is too high */
-.Hotspot.flipped .HotspotAnnotation {
-  bottom: auto;
-  top: calc(100% + 16px);
-  transform-origin: top center;
-}
-
-.Hotspot.flipped.active .HotspotAnnotation {
-  transform: translateX(calc(-50% + var(--shift-x, 0px))) translateY(0) scale(1);
-}
-
-.Hotspot.flipped .HotspotAnnotation::after {
-  top: auto;
-  bottom: 100%;
-  border-color: transparent transparent rgba(24, 20, 18, 0.92) transparent;
-}
-
-.Hotspot.active .HotspotAnnotation {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-  transform: translateX(calc(-50% + var(--shift-x, 0px))) translateY(0) scale(1);
-}
-
-/* Card Content Details */
-.HotspotHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 8px;
-}
-
-.HotspotHeader h3 {
-  margin: 0;
-  font-size: 1.38rem; /* Increased by 20% (from 1.15rem) */
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
-
-.HotspotClose {
-  font-size: 1.8rem; /* Increased by 20% (from 1.5rem) */
-  font-weight: 300;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: color 0.2s, transform 0.2s;
-  line-height: 1;
-  padding: 0 4px;
-}
-
-.HotspotClose:hover {
-  color: #fff;
-  transform: scale(1.1);
-}
-
-.HotspotAnnotation p {
-  margin: 0;
-  font-size: 1.1rem; /* Increased by ~20% (from 0.92rem) */
-  line-height: 1.55;
-  color: var(--text-muted);
-  font-weight: 300;
-}
-
-/* Technical Specification Tag in Card */
-.HotspotMaterial {
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.MaterialLabel {
-  color: var(--text-muted);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.78rem; /* Increased by 20% (from 0.65rem) */
-}
-
-.MaterialValue {
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 0.98rem; /* Increased by 20% (from 0.82rem) */
-  background: rgba(217, 119, 6, 0.08);
-  padding: 5px 12px; /* Increased by 20% (from 4px 10px) */
-  border-radius: 6px;
-  border: 1px solid rgba(217, 119, 6, 0.15);
-  display: inline-block;
-  align-self: flex-start;
-}
-
-
-/* RESPONSIVENESS */
-@media (max-width: 768px) {
-  #app {
-    padding: 1rem;
-    gap: 1rem;
-  }
-
-  .app-header h1 {
-    font-size: 2rem;
-  }
-
-  .app-header p {
-    font-size: 0.85rem;
-  }
-
-  .product-card {
-    border-radius: 20px;
-    padding: 0.8rem;
-  }
-
-  .ar-button-external {
-    padding: 10px 24px;
-    font-size: 0.95rem;
-    border-radius: 25px;
-  }
-
-  .ar-button-external::before {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* Scale hotspot annotation slightly on mobile so it fits screen width */
-  .HotspotAnnotation {
-    width: min(320px, calc(100vw - 32px));
-    padding: 16px;
-  }
-
-  .HotspotHeader h3 {
-    font-size: 1.15rem;
-  }
-
-  .HotspotAnnotation p {
-    font-size: 0.9rem;
-  }
-
-  .MaterialValue {
-    font-size: 0.82rem;
-    padding: 4px 10px;
-  }
-}
-
-/* ==========================================================================
-   QR Code Modal Overlay
-   ========================================================================== */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(12, 10, 9, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 100000;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 1.5rem;
-  animation: modal-fade-in 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
-}
-
-.modal-content {
-  background: rgba(28, 25, 23, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px;
-  width: 100%;
-  max-width: 420px;
-  padding: 2.2rem;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  position: relative;
-  text-align: center;
-  box-sizing: border-box;
-  animation: modal-scale-up 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.close-btn {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 2.2rem;
-  cursor: pointer;
-  transition: color 0.2s, transform 0.2s;
-  line-height: 1;
-  font-family: var(--font-family);
-}
-
-.close-btn:hover {
-  color: #fff;
-  transform: scale(1.1);
-}
-
-.modal-header h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #fff;
-}
-
-.qr-explanation {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.45;
-  font-weight: 300;
-}
-
-/* QR Code Container with subtle gold glow */
-.qr-wrapper {
-  margin: 1.8rem auto;
-  width: 210px;
-  height: 210px;
-  background-color: #fff;
-  border-radius: 18px;
-  padding: 12px;
-  box-sizing: border-box;
-  box-shadow: 0 0 25px rgba(217, 119, 6, 0.18), 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-.qr-wrapper img {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* Stepped Instructions */
-.modal-instructions {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 1.5rem;
-}
-
-.instruction-step {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.9rem;
-  color: var(--text-main);
-  font-weight: 300;
-}
-
-.step-num {
-  background-color: rgba(217, 119, 6, 0.12);
-  color: var(--primary);
-  font-weight: 700;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 0.8rem;
-  border: 1px solid rgba(217, 119, 6, 0.25);
-}
-
-@keyframes modal-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes modal-scale-up {
-  from {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* ==========================================================================
-   Action bar: Open Lid | View in your space | See full catalogue
-   Desktop: one centred row. Phones / small tablets: AR button on top, full width,
-   with the two secondary buttons side by side underneath.
-   ========================================================================== */
+/* ---------- Action bar: Open Lid | View in your space | See full catalogue ---------- */
 .action-bar {
   display: flex;
   justify-content: center;
@@ -665,39 +191,230 @@ model-viewer.has-active-hotspot .Hotspot:not(.active) {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-.action-bar .ar-button-external {
-  white-space: nowrap;
-  font-size: 1.05rem;
-  padding: 14px 28px;
-}
-
-.action-bar .btn-primary {
-  min-width: 260px;
-}
+.action-bar .ar-button-external { white-space: nowrap; }
+.action-bar .btn-primary { min-width: 260px; }
 
 .action-bar .btn-secondary {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
-  box-shadow: none;
-  color: var(--text-main);
+  color: var(--ink);
+  background-color: var(--surface);
+  border: 1.5px solid rgba(20, 33, 61, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .action-bar .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+  background-color: #fff;
+  border-color: var(--ink);
+  box-shadow: 0 12px 24px -12px rgba(20, 33, 61, 0.35);
 }
 
-.action-bar .btn-secondary:disabled {
-  opacity: 0.55;
-  background: rgba(255, 255, 255, 0.04);
-  transform: none;
+.action-bar .btn-secondary:disabled { background-color: var(--surface); }
+
+.lid-button { --icon: var(--icon-lid); }
+.catalogue-button { --icon: var(--icon-grid); }
+
+/* ---------- Loading overlay (shown in the model's poster slot) ---------- */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  border-radius: 20px;
+  background: rgba(236, 238, 241, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.action-bar .catalogue-button::before {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>');
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
+.sauna-spinner {
+  width: 54px;
+  height: 54px;
+  border: 3px solid var(--gold-soft);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+.loading-text {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* ---------- Modals (QR / AR help, lead form) ---------- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: rgba(20, 33, 61, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: modal-fade-in 0.25s ease forwards;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 2.2rem;
+  text-align: center;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 30px 70px -20px rgba(20, 33, 61, 0.45);
+  animation: modal-scale-up 0.3s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+.modal-content.modal-narrow { max-width: 400px; text-align: left; }
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-family);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.close-btn:hover { color: var(--ink); transform: scale(1.1); }
+
+.modal-header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.modal-header.center { text-align: center; }
+
+.qr-explanation {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 300;
+  color: var(--text-muted);
+}
+
+.qr-wrapper {
+  margin: 1.6rem auto;
+  width: 210px;
+  height: 210px;
+  padding: 12px;
+  background-color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-md);
+}
+
+.qr-wrapper img { width: 100%; height: 100%; display: block; }
+
+.modal-instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  text-align: left;
+  border-top: 1px solid var(--border);
+}
+
+.instruction-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #7a5c2e;
+  background-color: var(--gold-soft);
+  border: 1px solid rgba(184, 147, 90, 0.4);
+  border-radius: 50%;
+}
+
+.lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 1.4rem;
+}
+
+.lead-form input {
+  width: 100%;
+  padding: 13px 14px;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  color: var(--ink);
+  background: #f3f4f6;
+  border: 1px solid rgba(20, 33, 61, 0.14);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.lead-form input::placeholder { color: #9ca3af; }
+
+.lead-form input:focus {
+  background: #fff;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-soft);
+}
+
+.lead-form .ar-button-external { width: 100%; margin-top: 6px; }
+.lead-form .ar-button-external::before { display: none; }
+
+@keyframes modal-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-scale-up {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  #app { padding: 1rem; gap: 1rem; }
+  .app-header h1 { font-size: 1.7rem; letter-spacing: 0.16em; }
+  .app-header p { font-size: 0.85rem; }
+  .product-card { border-radius: 20px; padding: 0.6rem; }
+  .ar-button-external { padding: 11px 22px; font-size: 0.95rem; border-radius: 12px; }
+  .ar-button-external::before { width: 17px; height: 17px; }
+}
+
+/* Phones / small tablets: AR button on top, full width; the two secondary buttons below */
 @media (max-width: 720px) {
   .action-bar {
     display: grid;
@@ -709,19 +426,10 @@ model-viewer.has-active-hotspot .Hotspot:not(.active) {
     grid-column: 1 / -1;
     order: -1;
     min-width: 0;
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     padding: 14px 16px;
   }
-  .action-bar .btn-secondary {
-    font-size: 0.9rem;
-    padding: 12px 8px;
-    gap: 7px;
-  }
-  .action-bar .ar-button-external::before {
-    width: 17px;
-    height: 17px;
-    flex: none;
-  }
+  .action-bar .btn-secondary { font-size: 0.9rem; padding: 12px 8px; gap: 7px; }
 }
 
 @media (max-width: 380px) {

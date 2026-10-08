@@ -1,11 +1,18 @@
+/* Light, premium theme: deep navy + champagne gold on a soft light-grey product stage */
 :root {
-  --primary: #d97706;
-  --primary-hover: #f59e0b;
-  --bg: #0c0a09;
-  --surface: #1c1917;
-  --border: rgba(255, 255, 255, 0.09);
-  --text: #f5f5f4;
-  --muted: #a8a29e;
+  --ink: #14213d;
+  --ink-hover: #22335a;
+  --gold: #b8935a;
+  --gold-soft: rgba(184, 147, 90, 0.16);
+  --bg: #f6f6f7;
+  --surface: #ffffff;
+  --stage-1: #eceef1;
+  --stage-2: #d8dce1;
+  --border: rgba(20, 33, 61, 0.1);
+  --text: #14213d;
+  --muted: #6b7280;
+  --shadow-sm: 0 2px 8px rgba(20, 33, 61, 0.06);
+  --shadow-md: 0 18px 40px -16px rgba(20, 33, 61, 0.22);
   --font: 'Outfit', system-ui, sans-serif;
 }
 
@@ -15,7 +22,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at 50% 0%, #292524 0%, var(--bg) 60%) fixed;
+  background: radial-gradient(circle at 50% 0%, #ffffff 0%, var(--bg) 60%) fixed;
   color: var(--text);
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
@@ -29,7 +36,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(12, 10, 9, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
@@ -55,21 +62,28 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   border-radius: 999px;
   transition: color 0.2s, background 0.2s;
 }
-.back-link:hover { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+.back-link:hover { color: var(--ink); background: rgba(20, 33, 61, 0.06); }
 .brand {
   margin: 0;
-  font-size: 1.15rem;
+  position: relative;
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   text-align: center;
-  background: linear-gradient(135deg, #f5f5f4 30%, #a8a29e 70%, var(--primary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--ink);
+}
+.brand::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 2px;
+  margin: 5px auto 0;
+  background: var(--gold);
+  border-radius: 2px;
 }
 
-/* ---------- Grid: always 2 columns, as many rows as products ---------- */
+/* ---------- Grid: always 2 columns on tablet/desktop, 1 on phones ---------- */
 .page { max-width: 1100px; margin: 0 auto; padding: 28px 20px 64px; }
 .grid {
   display: grid;
@@ -82,25 +96,51 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
-.card:hover { border-color: rgba(217, 119, 6, 0.5); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45); }
-.card.highlight { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.3); }
+.card:hover { border-color: rgba(184, 147, 90, 0.6); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.card.highlight { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
 
+/* Product stage: light grey */
 .card-media {
   position: relative;
   aspect-ratio: 4 / 3;
-  background: radial-gradient(circle at 50% 38%, #4a4540 0%, #2a2623 78%);
+  background: radial-gradient(circle at 50% 38%, var(--stage-1) 0%, var(--stage-2) 100%);
+  /* Finger movement over the model always rotates it (never scrolls the page) */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 .card-media model-viewer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  touch-action: none;
+  cursor: grab;
   --poster-color: transparent;
-  --progress-bar-color: var(--primary);
+  --progress-bar-color: var(--gold);
+}
+.card-media model-viewer:active { cursor: grabbing; }
+
+.drag-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  pointer-events: none;
 }
 
 .card-foot { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -109,8 +149,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   text-align: center;
   font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--text);
+  letter-spacing: 0.03em;
+  color: var(--ink);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -128,16 +168,17 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  background: var(--primary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--ink);
+  border: 1px solid var(--ink);
   border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(217, 119, 6, 0.3);
-  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 8px 20px -8px rgba(20, 33, 61, 0.5);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
-.btn-ar:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.btn-ar:hover { background: var(--ink-hover); transform: translateY(-1px); box-shadow: 0 12px 24px -10px rgba(20, 33, 61, 0.55); }
 .btn-ar:active { transform: translateY(1px); }
+.btn-ar:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 
 /* ---------- QR hand-off (desktop only) ---------- */
 .qr-backdrop {
@@ -148,9 +189,9 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(20, 33, 61, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .qr-dialog {
   position: relative;
@@ -159,12 +200,12 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   text-align: center;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  border-radius: 22px;
+  box-shadow: 0 30px 70px -20px rgba(20, 33, 61, 0.45);
 }
-.qr-dialog h2 { margin: 0 0 8px; font-size: 1.3rem; }
+.qr-dialog h2 { margin: 0 0 8px; font-size: 1.3rem; color: var(--ink); }
 .qr-dialog p { margin: 0 0 20px; color: var(--muted); line-height: 1.5; font-size: 0.95rem; }
-.qr-dialog img { border-radius: 12px; background: #fff; }
+.qr-dialog img { border-radius: 12px; background: #fff; border: 1px solid var(--border); }
 .qr-close {
   position: absolute;
   top: 12px;
@@ -173,13 +214,13 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   height: 38px;
   display: grid;
   place-items: center;
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  background: rgba(20, 33, 61, 0.05);
   border: 1px solid var(--border);
   border-radius: 50%;
   cursor: pointer;
 }
-.qr-close:hover { background: rgba(255, 255, 255, 0.16); }
+.qr-close:hover { color: var(--ink); background: rgba(20, 33, 61, 0.1); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 560px) {
@@ -187,13 +228,13 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   .topbar-inner { padding: 10px 14px; }
   .back-link span { display: none; }
   .back-link, .topbar-spacer { min-width: 44px; }
-  .brand { font-size: 0.95rem; letter-spacing: 0.12em; }
+  .brand { font-size: 0.92rem; letter-spacing: 0.14em; }
   /* Phones: one large product per row so the model can be seen properly */
   .grid { grid-template-columns: 1fr; gap: 18px; }
   .card { border-radius: 18px; }
   .card-media { aspect-ratio: 1 / 0.85; }
   .card-foot { padding: 10px 14px 14px; gap: 10px; }
   .card-title { font-size: 0.85rem; letter-spacing: 0.04em; }
-  .btn-ar { font-size: 0.88rem; min-height: 40px; padding: 8px 14px; gap: 8px; border-radius: 10px; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25); }
+  .btn-ar { font-size: 0.88rem; min-height: 40px; padding: 8px 14px; gap: 8px; border-radius: 10px; box-shadow: 0 4px 12px -4px rgba(20, 33, 61, 0.45); }
   .btn-ar svg { width: 16px; height: 16px; }
 }
