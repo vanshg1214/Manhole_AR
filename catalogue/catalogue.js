@@ -76,10 +76,10 @@ function createCard(p) {
   mv.setAttribute('exposure', '2.6'); // same lighting as the poster thumbnails
   mv.setAttribute('tone-mapping', 'neutral');
   mv.setAttribute('camera-orbit', '35deg 62deg auto');
-  mv.setAttribute('min-camera-orbit', 'auto 5deg auto'); // keep the view above the floor
-  mv.setAttribute('max-camera-orbit', 'auto 92deg auto');
+  mv.setAttribute('min-camera-orbit', 'auto 0deg auto'); // allow looking from above and below
+  mv.setAttribute('max-camera-orbit', 'auto 180deg auto');
   mv.setAttribute('interaction-prompt', 'none');
-  mv.setAttribute('disable-zoom', ''); // mouse wheel keeps scrolling the page; dragging still rotates
+  // Removed disable-zoom so pinch-to-zoom works on mobile
   // AR: native Scene Viewer (Android) / Quick Look (iPhone + iPad) at true 1:1 scale on the floor
   mv.setAttribute('ar', '');
   mv.setAttribute('ar-modes', 'scene-viewer quick-look');
