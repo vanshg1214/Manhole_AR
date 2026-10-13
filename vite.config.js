@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
-// Multi-page routes: /catalogue, //catalogue and /catalogue/ should all open the catalogue.
-// (Without this, Vite's dev server falls back to the home page for the slash-less URL.)
-const PAGES = ['catalogue', 'tree-grate'];
+// Multi-page routes: /catalogue, /tree-grate, /gr should all open their respective pages.
+const PAGES = ['catalogue', 'tree-grate', 'gr'];
 const trailingSlashPages = () => (req, res, next) => {
   const [path, query = ''] = req.url.split('?');
   const clean = path.replace(/\/{2,}/g, '/');
@@ -22,7 +21,7 @@ const pageRoutes = {
 };
 
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [pageRoutes],
   build: {
     rollupOptions: {
