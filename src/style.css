@@ -97,10 +97,12 @@ body {
   width: 100%;
   flex: 1;
   min-height: 0;
-  padding: 0.5rem;
+  padding: 0; /* the viewer fills the whole stage, so every pixel of it is touch-interactive */
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
+  touch-action: none;
   border-radius: 28px;
   border: 1px solid var(--border);
   background: radial-gradient(circle at 50% 38%, var(--stage-1) 0%, var(--stage-2) 100%);
@@ -108,10 +110,11 @@ body {
 }
 
 model-viewer {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  flex: 1;
   height: 100%;
-  border-radius: 20px;
+  border-radius: inherit;
   background-color: transparent;
   position: relative;
   z-index: 2;
@@ -226,7 +229,7 @@ model-viewer {
   justify-content: center;
   align-items: center;
   z-index: 100;
-  border-radius: 20px;
+  border-radius: inherit;
   background: rgba(236, 238, 241, 0.97);
 }
 
@@ -411,7 +414,7 @@ model-viewer {
   #app { padding: 1rem; gap: 1rem; }
   .app-header h1 { font-size: 1.7rem; letter-spacing: 0.16em; }
   .app-header p { font-size: 0.85rem; }
-  .product-card { border-radius: 20px; padding: 0.6rem; }
+  .product-card { border-radius: 20px; padding: 0; }
   .ar-button-external { padding: 11px 22px; font-size: 0.95rem; border-radius: 12px; }
   .ar-button-external::before { width: 17px; height: 17px; }
 }
