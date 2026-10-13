@@ -30,6 +30,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         treeGrate: resolve(__dirname, 'tree-grate/index.html'),
         catalogue: resolve(__dirname, 'catalogue/index.html'),
+        gr: resolve(__dirname, 'gr/index.html'),
       },
     },
   },

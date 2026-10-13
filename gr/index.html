@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>750 X 245 CO D400 Grate & Channel - AR Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <h1>GRATE & CHANNEL</h1>
+      </header>
+
+      <main class="product-layout">
+        <!-- Main Model Viewer Card -->
+        <div class="product-card">
+          <model-viewer
+            src="../models/750_X_245_CO_D400_GRATE_CHANNEL_AR_8MB.glb"
+            ar
+            ar-modes="scene-viewer quick-look"
+            ar-scale="fixed"
+            ar-placement="floor"
+            camera-controls
+            touch-action="pan-y"
+            shadow-intensity="1.5"
+            shadow-softness="0.5"
+            environment-image="neutral"
+            exposure="1.2"
+            camera-target="auto auto auto"
+            camera-orbit="0deg 75deg auto"
+            min-camera-orbit="auto auto auto"
+            max-camera-orbit="auto auto auto"
+            alt="750 X 245 CO D400 Grate & Channel in AR"
+          >
+            <div slot="poster" class="loading-overlay">
+              <div class="spinner-container">
+                <div class="sauna-spinner"></div>
+                <p class="loading-text">Loading Model...</p>
+              </div>
+            </div>
+            <!-- Hidden slot button (model-viewer still requires it for activateAR) -->
+            <button slot="ar-button" style="display: none;"></button>
+          </model-viewer>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="ar-action-container">
+          <button id="custom-ar-btn" class="ar-button-external">
+            View in your space
+          </button>
+        </div>
+      </main>
+
+      <!-- QR Code Modal Overlay -->
+      <div id="qr-modal" class="modal-overlay">
+        <div class="modal-content">
+          <button id="modal-close" class="close-btn">&times;</button>
+          <div class="modal-header">
+            <h3>View in your space</h3>
+            <p class="qr-explanation">Spatial 3D AR viewing is supported on smartphones and tablets only.</p>
+          </div>
+          <div class="qr-wrapper">
+            <img id="qr-image" src="" alt="Scan QR Code to open on mobile" />
+          </div>
+          <div class="modal-instructions">
+            <div class="instruction-step">
+              <span class="step-num">1</span>
+              <span>Open the camera app on your iPhone or Android.</span>
+            </div>
+            <div class="instruction-step">
+              <span class="step-num">2</span>
+              <span>Scan the QR code to open this page on your phone.</span>
+            </div>
+            <div class="instruction-step">
+              <span class="step-num">3</span>
+              <span>Tap "View in your space" to place the 1:1 scale model.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="../src/main.js"></script>
+  </body>
+</html>
