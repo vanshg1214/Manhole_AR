@@ -1,6 +1,8 @@
 import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-const doc = await new NodeIO().registerExtensions(ALL_EXTENSIONS).read(process.argv[2]);
+import draco3d from 'draco3dgltf';
+const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'draco3d.decoder': await draco3d.createDecoderModule() });
+const doc = await io.read(process.argv[2]);
 const r = doc.getRoot();
 for (const m of r.listMaterials()) {
   console.log('material', m.getName(), 'alpha', m.getAlphaMode(), 'doubleSided', m.getDoubleSided());
