@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tree Grate - Premium AR Showcase</title>
+    <!-- Start downloading the model while the JS bundle loads -->
+    <link rel="preload" as="fetch" href="/models/TREE_GRATE_MATTE_BLACK_WEB_OPTIMIZED.glb" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,7 +36,7 @@
             camera-orbit="0deg 75deg auto"
             min-camera-orbit="auto 0deg auto"
             max-camera-orbit="auto 180deg auto"
-            interpolation-decay="50"
+            interpolation-decay="30"
             alt="Tree Grate in AR"
           >
             <div slot="poster" class="loading-overlay">

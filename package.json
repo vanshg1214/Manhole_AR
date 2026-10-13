@@ -10,7 +10,10 @@
     "deploy": "vite build && gh-pages -d dist"
   },
   "devDependencies": {
+    "draco3dgltf": "^1.5.7",
     "gh-pages": "^6.3.0",
+    "meshoptimizer": "^1.3.0",
+    "sharp": "^0.35.5",
     "vite": "^8.0.12"
   },
   "dependencies": {

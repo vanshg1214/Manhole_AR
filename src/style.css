@@ -117,15 +117,12 @@ model-viewer {
   z-index: 2;
   --poster-color: transparent;
   --progress-bar-color: var(--gold);
-  /* GPU compositing layer — eliminates input lag on mobile */
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  /* Prevent scroll hijacking; model-viewer handles its own touch */
+  /* One finger rotates / two fingers pinch-zoom; the page never scrolls under the model */
   touch-action: none;
   overscroll-behavior: contain;
-  /* Isolate the GL context so the browser doesn't re-layout on rotate */
-  contain: layout style;
+  /* Rotating never re-lays-out or repaints anything outside the viewer */
+  contain: layout paint style;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ---------- Buttons ---------- */
@@ -230,9 +227,7 @@ model-viewer {
   align-items: center;
   z-index: 100;
   border-radius: 20px;
-  background: rgba(236, 238, 241, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(236, 238, 241, 0.97);
 }
 
 .spinner-container {
@@ -273,9 +268,7 @@ model-viewer {
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
-  background-color: rgba(20, 33, 61, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(20, 33, 61, 0.55);
   animation: modal-fade-in 0.25s ease forwards;
 }
 

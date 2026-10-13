@@ -1,3 +1,4 @@
+import '../src/perf.js'; // must come before model-viewer
 import '@google/model-viewer';
 import products from './products.json';
 
@@ -28,24 +29,41 @@ function hideQr() {
   document.body.classList.remove('lock');
 }
 
-// Start loading a card's model (keeping its poster visible) once it is close to the screen.
+// Models are fetched + uploaded to the GPU ONE AT A TIME, only when a card is near the screen.
+// (Loading several at once blocks the main thread and makes scrolling / touch rotation stutter.)
+const queue = [];
+let loading = false;
+
+function pump() {
+  if (loading) return;
+  const mv = queue.shift();
+  if (!mv) return;
+  if (mv.loaded) return pump();
+  loading = true;
+  const done = () => { loading = false; setTimeout(pump, 120); };
+  mv.addEventListener('load', () => { mv.dismissPoster(); done(); }, { once: true });
+  mv.addEventListener('error', done, { once: true });
+  mv.loading = 'eager';
+}
+
 const preloader = new IntersectionObserver(
   (entries) => {
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
-      const mv = en.target.__mv;
-      // As soon as the model has loaded, swap the poster for the live 3D model so the very first
-      // finger movement rotates it (no separate "activate" step).
-      mv.addEventListener('load', () => mv.dismissPoster(), { once: true });
-      mv.loading = 'eager';
+      queue.push(en.target.__mv);
       preloader.unobserve(en.target);
     });
+    // Closest-to-top first, so the cards the user is looking at load before the ones below.
+    queue.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+    (window.requestIdleCallback || setTimeout)(pump);
   },
-  { rootMargin: '400px 0px' }
+  { rootMargin: '300px 0px' }
 );
 
 function ensureLoaded(mv) {
   if (mv.loaded) return Promise.resolve();
+  const i = queue.indexOf(mv);
+  if (i >= 0) queue.splice(i, 1);
   mv.loading = 'eager';
   return new Promise((resolve) => {
     mv.addEventListener('load', resolve, { once: true });
