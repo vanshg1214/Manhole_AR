@@ -1,5 +1,6 @@
 import '../src/perf.js'; // must come before model-viewer
 import '@google/model-viewer';
+import { enableFreeRotate } from '../src/freeRotate.js';
 import products from './products.json';
 
 // Models and posters live in /public/catalogue-models. Resolve from this script's
@@ -108,6 +109,7 @@ function createCard(p) {
   hidden.hidden = true;
   mv.appendChild(hidden);
   media.appendChild(mv);
+  const rotator = enableFreeRotate(mv);
 
   const hint = document.createElement('span');
   hint.className = 'drag-hint';
@@ -137,6 +139,7 @@ function createCard(p) {
     // Feature-detect instead of sniffing the user agent: iPadOS reports itself as a Mac.
     if (mv.canActivateAR) {
       try {
+        rotator.reset(); // place the model upright in AR
         await ensureLoaded(mv); // iOS Quick Look needs the model loaded to build its AR file
         await mv.activateAR();
       } catch (err) {

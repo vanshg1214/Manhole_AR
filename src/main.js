@@ -1,11 +1,16 @@
 import './style.css';
 import './perf.js'; // must come before model-viewer
 import '@google/model-viewer';
+import { enableFreeRotate } from './freeRotate.js';
 import { inject } from '@vercel/analytics';
 
 inject();
 
 const modelViewer = document.querySelector('model-viewer');
+// Full 360-degree turntable in every direction (model-viewer's camera orbit stops at the poles)
+const rotator = modelViewer
+  ? enableFreeRotate(modelViewer, { autoRotate: modelViewer.hasAttribute('auto-rotate') })
+  : null;
 
 
 /* ==========================================================================
@@ -18,13 +23,10 @@ const lidBtn = document.getElementById('lid-btn');
 const LID_WAIT = 5;
 let lidTimer = null;
 
-const shadowIntensity = modelViewer ? modelViewer.shadowIntensity : 0;
-
 function resetLid() {
   clearTimeout(lidTimer);
   modelViewer.pause();
   modelViewer.currentTime = 0;
-  modelViewer.shadowIntensity = shadowIntensity;
   lidBtn.disabled = false;
   lidBtn.textContent = 'Open Lid';
 }
@@ -33,7 +35,6 @@ if (lidBtn && modelViewer) {
   lidBtn.addEventListener('click', () => {
     lidBtn.disabled = true;
     lidBtn.textContent = 'Opening...';
-    modelViewer.shadowIntensity = 0; // contact shadow would be re-rendered every animation frame
     modelViewer.play({ repetitions: 1 });
     // Jump past the 5s closed wait once playback has started
     modelViewer.currentTime = LID_WAIT;
@@ -100,6 +101,7 @@ if (customArBtn) {
   customArBtn.addEventListener('click', async () => {
     if (modelViewer && modelViewer.canActivateAR) {
       try {
+        if (rotator) rotator.reset(); // AR (Quick Look) should place the model upright
         await ensureModelLoaded(); // Quick Look builds its AR file from the loaded model
         await modelViewer.activateAR();
       } catch (e) {
