@@ -6,13 +6,20 @@
  * affected (layout is in CSS pixels), so the page looks identical.
  */
 const MAX_DPR = 2;
-const realDpr = () => window.devicePixelRatio || 1;
 
-if (realDpr() > MAX_DPR && (navigator.maxTouchPoints || 0) > 0) {
-  const native = Object.getOwnPropertyDescriptor(window, 'devicePixelRatio');
-  const read = native && native.get ? () => native.get.call(window) : () => native.value;
-  Object.defineProperty(window, 'devicePixelRatio', {
-    configurable: true,
-    get: () => Math.min(read(), MAX_DPR),
-  });
+try {
+  const real = window.devicePixelRatio || 1;
+  if (real > MAX_DPR && (navigator.maxTouchPoints || 0) > 0) {
+    // Safari / Chrome / Firefox differ on whether this lives on window or Window.prototype
+    const desc =
+      Object.getOwnPropertyDescriptor(window, 'devicePixelRatio') ||
+      Object.getOwnPropertyDescriptor(Object.getPrototypeOf(window), 'devicePixelRatio');
+    const read = desc && desc.get ? () => desc.get.call(window) : () => real;
+    Object.defineProperty(window, 'devicePixelRatio', {
+      configurable: true,
+      get: () => Math.min(read(), MAX_DPR),
+    });
+  }
+} catch {
+  /* not allowed in this browser: render at native resolution */
 }
