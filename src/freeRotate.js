@@ -5,12 +5,12 @@
  * (it can never pass over the poles), so a model can be spun sideways but not flipped over.
  * Here we rotate the MODEL instead (trackball style) so a finger can turn it any way, without limit.
  *
- *   1 finger / mouse drag  -> spin (horizontal) and tilt (vertical, unlimited), with a little inertia
+ *   1 finger / mouse drag  -> spin 360 degrees about the model's own vertical axis (horizontal drag) and tilt up/down (vertical drag), with a little inertia
  *   2 fingers / wheel      -> zoom
  *   double tap / dblclick  -> straighten + reset (also the small reset button on the stage)
  *
  * The model is spun about its OWN vertical axis and tilted about the SCREEN's horizontal axis, so it
- * can never lean sideways ("roll"): it is always straight left-to-right, however it is turned.
+ * can never lean sideways ("roll") or go upside down: it always stands level on screen.
  *
  * It writes straight to the scene pivot (no attribute change, so no bounding-box / shadow rebuilds
  * per move), which is also the cheapest way to turn the model on a phone.
@@ -39,7 +39,7 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
 
   const pivot = scene.scenePivot;
   let yaw = 0; // spin about the model's own vertical axis
-  let pitch = 0; // tilt about the screen's horizontal axis (unbounded: can go over the top)
+  let pitch = 0; // tilt about the screen's horizontal axis (clamped, see MAX_PITCH)
   let velX = 0; // rad/s tilt (vertical drag)
   let velY = 0; // rad/s spin (horizontal drag)
   let resetAnim = null;
@@ -58,9 +58,11 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     scene.queueRender();
   };
 
+  // Tilt stays within +/-85deg (top view <-> underside view) so the product is never upside down or leaning.
+  const MAX_PITCH = (85 * Math.PI) / 180;
   const rotate = (dYaw, dPitch) => {
     yaw += dYaw;
-    pitch += dPitch;
+    pitch = Math.max(-MAX_PITCH, Math.min(MAX_PITCH, pitch + dPitch));
     apply();
   };
 
