@@ -52,8 +52,24 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
   const pointers = new Map();
 
   const apply = () => {
-    // Euler order 'XYZ' = Rx(pitch) * Ry(yaw): spin first, then tilt the whole thing on screen. No roll.
-    pivot.rotation.set(pitch, yaw, 0, 'XYZ');
+    // yaw: about the model's own vertical axis (world Y).
+    // pitch: about the camera's horizontal "right" axis, so a vertical drag always tilts the model
+    // straight toward / away from the viewer, whatever azimuth the camera was framed from.
+    let az = 0;
+    try { az = mv.getCameraOrbit().theta; } catch { /* not ready yet */ }
+    const rx = Math.cos(az);
+    const rz = -Math.sin(az);
+    const sp = Math.sin(pitch / 2), cp = Math.cos(pitch / 2);
+    const sy = Math.sin(yaw / 2), cy = Math.cos(yaw / 2);
+    // q = Raxis(right, pitch) * Ry(yaw)
+    const ax = rx * sp, ay = 0, az2 = rz * sp, aw = cp;
+    const bx = 0, by = sy, bz = 0, bw = cy;
+    pivot.quaternion.set(
+      aw * bx + ax * bw + ay * bz - az2 * by,
+      aw * by - ax * bz + ay * bw + az2 * bx,
+      aw * bz + ax * by - ay * bx + az2 * bw,
+      aw * bw - ax * bx - ay * by - az2 * bz
+    );
     pivot.updateMatrixWorld(true);
     scene.queueRender();
   };
