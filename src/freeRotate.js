@@ -24,7 +24,7 @@ const sceneOf = (mv) => {
   return null;
 };
 
-export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.35, zoom = true } = {}) {
+export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.35, zoom = true, fullTilt = false } = {}) {
   const scene = sceneOf(mv);
   if (!scene) {
     console.warn('free rotate unavailable, using built-in controls');
@@ -75,7 +75,8 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
   };
 
   // Tilt stays within +/-85deg (top view <-> underside view) so the product is never upside down or leaning.
-  const MAX_PITCH = (85 * Math.PI) / 180;
+  // fullTilt: the tilt is unlimited too (a complete 360 over the top), still with no sideways lean.
+  const MAX_PITCH = fullTilt ? Infinity : (85 * Math.PI) / 180;
   const rotate = (dYaw, dPitch) => {
     yaw += dYaw;
     pitch = Math.max(-MAX_PITCH, Math.min(MAX_PITCH, pitch + dPitch));

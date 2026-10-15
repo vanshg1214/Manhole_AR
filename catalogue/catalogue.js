@@ -109,7 +109,7 @@ function createCard(p) {
   hidden.hidden = true;
   mv.appendChild(hidden);
   media.appendChild(mv);
-  const rotator = enableFreeRotate(mv);
+  const rotator = enableFreeRotate(mv, { fullTilt: true });
 
   const hint = document.createElement('span');
   hint.className = 'drag-hint';
