@@ -5,9 +5,12 @@
  * (it can never pass over the poles), so a model can be spun sideways but not flipped over.
  * Here we rotate the MODEL instead (trackball style) so a finger can turn it any way, without limit.
  *
- *   1 finger / mouse drag  -> rotate in every direction, with a little inertia
+ *   1 finger / mouse drag  -> spin (horizontal) and tilt (vertical, unlimited), with a little inertia
  *   2 fingers / wheel      -> zoom
- *   double click           -> reset
+ *   double tap / dblclick  -> straighten + reset (also the small reset button on the stage)
+ *
+ * The model is spun about its OWN vertical axis and tilted about the SCREEN's horizontal axis, so it
+ * can never lean sideways ("roll"): it is always straight left-to-right, however it is turned.
  *
  * It writes straight to the scene pivot (no attribute change, so no bounding-box / shadow rebuilds
  * per move), which is also the cheapest way to turn the model on a phone.
@@ -19,22 +22,6 @@ const sceneOf = (mv) => {
     if (sym && mv[sym] && mv[sym].scenePivot) return mv[sym];
   }
   return null;
-};
-
-// quaternion = [x, y, z, w]
-const mul = (a, b) => [
-  a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1],
-  a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],
-  a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3],
-  a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2],
-];
-const axis = (x, y, z, ang) => {
-  const s = Math.sin(ang / 2);
-  return [x * s, y * s, z * s, Math.cos(ang / 2)];
-};
-const norm = (q) => {
-  const l = Math.hypot(q[0], q[1], q[2], q[3]) || 1;
-  return [q[0] / l, q[1] / l, q[2] / l, q[3] / l];
 };
 
 export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.35, zoom = true } = {}) {
@@ -51,9 +38,11 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
   mv.style.touchAction = 'none';
 
   const pivot = scene.scenePivot;
-  let q = [0, 0, 0, 1];
-  let velX = 0; // rad/s about world X (vertical drag)
-  let velY = 0; // rad/s about world Y (horizontal drag)
+  let yaw = 0; // spin about the model's own vertical axis
+  let pitch = 0; // tilt about the screen's horizontal axis (unbounded: can go over the top)
+  let velX = 0; // rad/s tilt (vertical drag)
+  let velY = 0; // rad/s spin (horizontal drag)
+  let resetAnim = null;
   let lastMove = 0;
   let idleSince = performance.now();
   let raf = 0;
@@ -63,14 +52,15 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
   const pointers = new Map();
 
   const apply = () => {
-    pivot.quaternion.set(q[0], q[1], q[2], q[3]);
+    // Euler order 'XYZ' = Rx(pitch) * Ry(yaw): spin first, then tilt the whole thing on screen. No roll.
+    pivot.rotation.set(pitch, yaw, 0, 'XYZ');
     pivot.updateMatrixWorld(true);
     scene.queueRender();
   };
 
-  const rotate = (dx, dy) => {
-    // screen drag -> rotation about the camera's up / right axes (world Y / X)
-    q = norm(mul(mul(axis(0, 1, 0, dx), axis(1, 0, 0, dy)), q));
+  const rotate = (dYaw, dPitch) => {
+    yaw += dYaw;
+    pitch += dPitch;
     apply();
   };
 
@@ -81,6 +71,16 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     raf = 0;
     const dt = Math.min(0.05, (now - prev) / 1000);
     let moving = false;
+    if (resetAnim) {
+      const t = Math.min(1, (now - resetAnim.t0) / 320);
+      const e = 1 - Math.pow(1 - t, 3);
+      yaw = resetAnim.yaw * (1 - e);
+      pitch = resetAnim.pitch * (1 - e);
+      apply();
+      if (t >= 1) resetAnim = null;
+      schedule(now);
+      return;
+    }
     if (pointers.size === 0) {
       if (Math.abs(velX) > 0.02 || Math.abs(velY) > 0.02) {
         rotate(velY * dt, velX * dt);
@@ -115,6 +115,7 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     try { mv.setPointerCapture(e.pointerId); } catch { /* ignore */ }
     velX = velY = 0;
+    resetAnim = null;
     if (pointers.size === 2) {
       const [a, b] = [...pointers.values()];
       pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
@@ -171,13 +172,49 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     );
   }
 
-  const reset = () => {
-    q = [0, 0, 0, 1];
+  const TAU = Math.PI * 2;
+  const reset = (animate = true) => {
     velX = velY = 0;
-    apply();
+    // go to the nearest upright pose instead of unwinding all the turns
+    yaw -= Math.round(yaw / TAU) * TAU;
+    pitch -= Math.round(pitch / TAU) * TAU;
+    if (animate && (yaw || pitch)) resetAnim = { yaw, pitch, t0: performance.now() };
+    else { yaw = pitch = 0; apply(); }
     if (radius0) setRadius(radius0);
+    schedule();
   };
-  mv.addEventListener('dblclick', reset);
+  mv.addEventListener('dblclick', () => reset());
+
+  // double-tap (touch screens do not fire dblclick reliably)
+  let lastTap = 0;
+  let downAt = null;
+  mv.addEventListener('pointerdown', (e) => { downAt = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  mv.addEventListener('pointerup', (e) => {
+    if (!downAt || e.pointerType === 'mouse') return;
+    const now = performance.now();
+    const tap = now - downAt.t < 250 && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) < 10;
+    if (tap && now - lastTap < 350) { reset(); lastTap = 0; } else if (tap) lastTap = now;
+  });
+
+  // visible "straighten / reset view" button
+  const host = mv.parentElement;
+  if (host) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Reset view');
+    btn.title = 'Reset view';
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>';
+    Object.assign(btn.style, {
+      position: 'absolute', top: '10px', right: '10px', zIndex: '5',
+      width: '40px', height: '40px', display: 'grid', placeItems: 'center',
+      color: '#14213d', background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(20,33,61,0.15)',
+      borderRadius: '50%', cursor: 'pointer', padding: '0', WebkitTapHighlightColor: 'transparent',
+      boxShadow: '0 2px 8px rgba(20,33,61,0.12)',
+    });
+    btn.addEventListener('click', (e) => { e.stopPropagation(); reset(); });
+    host.appendChild(btn);
+  }
 
   if (autoRotate) {
     new IntersectionObserver((en) => {
@@ -188,5 +225,5 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     schedule();
   }
 
-  return { reset };
+  return { reset: () => reset(false) };
 }
