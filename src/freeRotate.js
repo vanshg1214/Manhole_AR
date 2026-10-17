@@ -12,6 +12,9 @@
  * The model is spun about its OWN vertical axis and tilted about the SCREEN's horizontal axis, so it
  * can never lean sideways ("roll") or go upside down: it always stands level on screen.
  *
+ * Zoom goes in close enough to read the detail; two fingers (or shift / right mouse button) also pan,
+ * so a close-up can be moved to any part of the product.
+ *
  * It writes straight to the scene pivot (no attribute change, so no bounding-box / shadow rebuilds
  * per move), which is also the cheapest way to turn the model on a phone.
  * If model-viewer's internals are not reachable it falls back to the built-in camera controls.
@@ -48,7 +51,10 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
   let raf = 0;
   let visible = true;
   let radius0 = 0;
+  let target0 = null;
   let pinchDist = 0;
+  let pinchMid = null;
+  let panning = false;
   const pointers = new Map();
 
   const apply = () => {
@@ -122,9 +128,35 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     const o = mv.getCameraOrbit();
     mv.cameraOrbit = `${o.theta}rad ${o.phi}rad ${r}m`;
   };
-  const clampRadius = (r) => Math.min(radius0 * 2.2, Math.max(radius0 * 0.35, r));
+  const MIN_ZOOM = 0.12; // closest view: 12% of the framing distance (about 8x magnification)
+  const clampRadius = (r) => Math.min(radius0 * 2.2, Math.max(radius0 * MIN_ZOOM, r));
   const readRadius = () => {
-    try { radius0 = mv.getCameraOrbit().radius; } catch { /* not ready yet */ }
+    try {
+      radius0 = mv.getCameraOrbit().radius;
+      const t = mv.getCameraTarget();
+      target0 = { x: t.x, y: t.y, z: t.z };
+      // let model-viewer's own limits allow the wider zoom range too
+      const min = mv.minCameraOrbit?.split(' ') ?? ['auto', '0deg', 'auto'];
+      mv.minCameraOrbit = `${min[0]} ${min[1]} ${radius0 * MIN_ZOOM}m`;
+      mv.maxCameraOrbit = `auto 180deg ${radius0 * 2.2}m`;
+    } catch { /* not ready yet */ }
+  };
+
+  // move the view in the screen plane (used by two-finger drag / shift or right-button drag)
+  const pan = (dx, dy) => {
+    if (!radius0 || !target0) return;
+    const o = mv.getCameraOrbit();
+    const t = mv.getCameraTarget();
+    const fov = ((mv.getFieldOfView?.() ?? 45) * Math.PI) / 180;
+    const k = (2 * o.radius * Math.tan(fov / 2)) / Math.max(1, mv.clientHeight);
+    const rx = Math.cos(o.theta), rz = -Math.sin(o.theta); // screen right
+    const ux = -Math.cos(o.phi) * Math.sin(o.theta), uy = Math.sin(o.phi), uz = -Math.cos(o.phi) * Math.cos(o.theta); // screen up
+    const lim = radius0 * 0.6;
+    const c = (v, v0) => Math.max(v0 - lim, Math.min(v0 + lim, v));
+    const x = c(t.x - rx * dx * k + ux * dy * k, target0.x);
+    const y = c(t.y + uy * dy * k, target0.y);
+    const z = c(t.z - rz * dx * k + uz * dy * k, target0.z);
+    mv.cameraTarget = `${x}m ${y}m ${z}m`;
   };
 
   mv.addEventListener('load', readRadius, { once: true });
@@ -135,9 +167,11 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     try { mv.setPointerCapture(e.pointerId); } catch { /* ignore */ }
     velX = velY = 0;
     resetAnim = null;
+    panning = e.pointerType === 'mouse' && (e.shiftKey || e.button === 2);
     if (pointers.size === 2) {
       const [a, b] = [...pointers.values()];
       pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+      pinchMid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
     }
   });
 
@@ -155,10 +189,17 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
       const d = Math.hypot(a.x - b.x, a.y - b.y);
       if (pinchDist > 0 && d > 0) setRadius(clampRadius(mv.getCameraOrbit().radius * (pinchDist / d)));
       pinchDist = d;
+      const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+      if (pinchMid) pan(mid.x - pinchMid.x, mid.y - pinchMid.y);
+      pinchMid = mid;
       return;
     }
 
-    const k = perPx();
+    if (panning) { pan(dx, dy); return; }
+
+    // slower turning when zoomed in, so close-ups are easy to steer
+    const zoomK = radius0 ? Math.max(0.25, Math.min(1, mv.getCameraOrbit().radius / radius0)) : 1;
+    const k = perPx() * zoomK;
     const now = performance.now();
     const dt = Math.max(0.008, (now - lastMove) / 1000);
     rotate(dx * k, dy * k);
@@ -174,6 +215,8 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     if (performance.now() - lastMove > 90) velX = velY = 0; // finger rested before lifting
     idleSince = performance.now();
     pinchDist = 0;
+    pinchMid = null;
+    if (pointers.size === 0) panning = false;
     schedule();
   };
   mv.addEventListener('pointerup', end);
@@ -185,7 +228,7 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
       (e) => {
         if (!radius0) return;
         e.preventDefault();
-        setRadius(clampRadius(mv.getCameraOrbit().radius * Math.exp(e.deltaY * 0.0012)));
+        setRadius(clampRadius(mv.getCameraOrbit().radius * Math.exp(e.deltaY * (e.ctrlKey ? 0.01 : 0.0012))));
       },
       { passive: false }
     );
@@ -200,9 +243,11 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     if (animate && (yaw || pitch)) resetAnim = { yaw, pitch, t0: performance.now() };
     else { yaw = pitch = 0; apply(); }
     if (radius0) setRadius(radius0);
+    if (target0) mv.cameraTarget = `${target0.x}m ${target0.y}m ${target0.z}m`;
     schedule();
   };
   mv.addEventListener('dblclick', () => reset());
+  mv.addEventListener('contextmenu', (e) => e.preventDefault()); // right button pans
 
   // double-tap (touch screens do not fire dblclick reliably)
   let lastTap = 0;
