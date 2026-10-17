@@ -8,7 +8,7 @@ import products from './products.json';
 // (kept as a variable: Vite would otherwise rewrite `new URL(literal, import.meta.url)` as an asset)
 const scriptUrl = import.meta.url;
 const BASE = new URL('../', scriptUrl).href;
-const ENV_URL = `${BASE}hdri/studio_small_08_1k.hdr`;
+const ENV_URL = `${BASE}hdri/brown_photostudio_02_1k.hdr`;
 const modelUrl = (p) => `${BASE}catalogue-models/${encodeURIComponent(p.file)}`;
 const posterUrl = (p) => `${BASE}catalogue-models/posters/${encodeURIComponent(p.id)}.webp`;
 
@@ -92,9 +92,9 @@ function createCard(p) {
   mv.setAttribute('loading', 'lazy');
   mv.setAttribute('camera-controls', '');
   mv.setAttribute('touch-action', 'none'); // one finger rotates freely in every direction
-  mv.setAttribute('environment-image', ENV_URL); // studio HDRI: gives the cast iron real depth and highlights
-  mv.setAttribute('exposure', String(p.exposure ?? 3.25)); // same lighting as the poster thumbnails (black painted iron needs less light to stay black)
-  mv.setAttribute('environment-intensity', '2.45');
+  mv.setAttribute('environment-image', ENV_URL); // warm studio HDRI: gives the cast iron real depth and highlights
+  mv.setAttribute('exposure', String(p.exposure ?? 3)); // same lighting as the poster thumbnails (black painted iron needs less light to stay black; galvanised parts get 3)
+  mv.setAttribute('environment-intensity', '1');
   mv.setAttribute('tone-mapping', 'neutral');
   mv.setAttribute('camera-orbit', p.orbit ?? '35deg 62deg auto'); // per product: the text cast on some models reads best from the front
   mv.setAttribute('min-camera-orbit', 'auto 0deg auto'); // allow looking from above and below

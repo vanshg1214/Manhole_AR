@@ -12,7 +12,7 @@
     ],
     "kb": 826,
     "orbit": "165deg 62deg auto",
-    "exposure": 1.2
+    "exposure": 2.0
   },
   {
     "id": "24-inch-plain-braker-ring",
@@ -27,7 +27,7 @@
     ],
     "kb": 114,
     "orbit": "165deg 62deg auto",
-    "exposure": 1.2
+    "exposure": 2.0
   },
   {
     "id": "24-inch-plain-wheel",
@@ -42,7 +42,7 @@
     ],
     "kb": 124,
     "orbit": "165deg 62deg auto",
-    "exposure": 1.2
+    "exposure": 2.0
   },
   {
     "id": "214-x-214-c250-hinge-grate-and-frm",
@@ -57,7 +57,7 @@
     ],
     "kb": 1232,
     "orbit": "165deg 62deg auto",
-    "exposure": 1.2
+    "exposure": 2.0
   },
   {
     "id": "360-x-310-c250-hinge-grate-and-frame",
@@ -72,7 +72,7 @@
     ],
     "kb": 1238,
     "orbit": "165deg 62deg auto",
-    "exposure": 1.2
+    "exposure": 2.0
   },
   {
     "id": "420-x-420-d400-grate-and-frame",
@@ -87,7 +87,7 @@
     ],
     "kb": 990,
     "orbit": "165deg 62deg auto",
-    "exposure": 1.2
+    "exposure": 2.0
   },
   {
     "id": "450-dia-b125-cvr-and-frm",
