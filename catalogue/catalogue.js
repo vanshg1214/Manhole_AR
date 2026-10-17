@@ -155,7 +155,8 @@ function createCard(p) {
   return card;
 }
 
-products.forEach((p) => grid.appendChild(createCard(p)));
+// Entries with "hidden": true in products.json are kept but not shown (remove the flag to bring one back)
+products.filter((p) => !p.hidden).forEach((p) => grid.appendChild(createCard(p)));
 
 qrModal.addEventListener('click', (e) => { if (e.target === qrModal) hideQr(); });
 $('qr-close').addEventListener('click', hideQr);

@@ -100,7 +100,8 @@
       545,
       61
     ],
-    "kb": 708
+    "kb": 708,
+    "hidden": true
   },
   {
     "id": "600-dia-b125-cvr-and-frm",
@@ -113,7 +114,8 @@
       685,
       100
     ],
-    "kb": 816
+    "kb": 816,
+    "hidden": true
   },
   {
     "id": "600-dia-d400-circular-cvr-and-frm",
@@ -126,7 +128,8 @@
       863,
       198
     ],
-    "kb": 1416
+    "kb": 1416,
+    "hidden": true
   },
   {
     "id": "600-x-600-b125-cvr-and-frm",
@@ -139,7 +142,8 @@
       690,
       73
     ],
-    "kb": 1216
+    "kb": 1216,
+    "hidden": true
   },
   {
     "id": "600-x-600-d400-dt-grate-and-frame",
@@ -152,7 +156,8 @@
       770,
       187
     ],
-    "kb": 1175
+    "kb": 1175,
+    "hidden": true
   },
   {
     "id": "600-x-600-ds-recess-cover-and-frame",
@@ -165,7 +170,8 @@
       750,
       190
     ],
-    "kb": 434
+    "kb": 434,
+    "hidden": true
   },
   {
     "id": "600-x-600-x-100-d400-dt-cover-and-frame",
@@ -178,7 +184,8 @@
       771,
       145
     ],
-    "kb": 1284
+    "kb": 1284,
+    "hidden": true
   },
   {
     "id": "750-x-245-co-d400-grate-and-channel",
@@ -191,7 +198,8 @@
       750,
       120
     ],
-    "kb": 757
+    "kb": 757,
+    "hidden": true
   },
   {
     "id": "1000-x-150-d400-grating-and-ms-rail",
@@ -204,7 +212,8 @@
       1010,
       200
     ],
-    "kb": 1793
+    "kb": 1793,
+    "hidden": true
   },
   {
     "id": "1000-x-1000-ms-grating",
@@ -230,7 +239,8 @@
       820,
       225
     ],
-    "kb": 1413
+    "kb": 1413,
+    "hidden": true
   },
   {
     "id": "3300-grate-frame-and-hood",
@@ -243,7 +253,8 @@
       864,
       382
     ],
-    "kb": 214
+    "kb": 214,
+    "hidden": true
   },
   {
     "id": "4056-surface-box",
@@ -256,7 +267,8 @@
       240,
       258
     ],
-    "kb": 400
+    "kb": 400,
+    "hidden": true
   },
   {
     "id": "counter-weight-32-kg",
@@ -269,7 +281,8 @@
       62,
       352
     ],
-    "kb": 536
+    "kb": 536,
+    "hidden": true
   },
   {
     "id": "ms-frame",
@@ -295,7 +308,8 @@
       565,
       254
     ],
-    "kb": 30
+    "kb": 30,
+    "hidden": true
   },
   {
     "id": "ms-revit-grating",
@@ -308,7 +322,8 @@
       89,
       114
     ],
-    "kb": 151
+    "kb": 151,
+    "hidden": true
   },
   {
     "id": "tree-grate-and-frame",
@@ -321,6 +336,7 @@
       640,
       112
     ],
-    "kb": 911
+    "kb": 911,
+    "hidden": true
   }
 ]
