@@ -92,7 +92,7 @@ function createCard(p) {
   mv.setAttribute('camera-controls', '');
   mv.setAttribute('touch-action', 'none'); // one finger rotates freely in every direction
   mv.setAttribute('environment-image', 'neutral');
-  mv.setAttribute('exposure', '2.6'); // same lighting as the poster thumbnails
+  mv.setAttribute('exposure', String(p.exposure ?? 2.6)); // same lighting as the poster thumbnails (dark painted-black models need less)
   mv.setAttribute('tone-mapping', 'neutral');
   mv.setAttribute('camera-orbit', '35deg 62deg auto');
   mv.setAttribute('min-camera-orbit', 'auto 0deg auto'); // allow looking from above and below

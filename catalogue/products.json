@@ -10,7 +10,8 @@
       711,
       114
     ],
-    "kb": 826
+    "kb": 826,
+    "exposure": 1
   },
   {
     "id": "24-inch-plain-braker-ring",
@@ -23,7 +24,8 @@
       631,
       16
     ],
-    "kb": 114
+    "kb": 114,
+    "exposure": 1
   },
   {
     "id": "24-inch-plain-wheel",
@@ -36,7 +38,8 @@
       604,
       77
     ],
-    "kb": 124
+    "kb": 124,
+    "exposure": 1
   },
   {
     "id": "214-x-214-c250-hinge-grate-and-frm",
@@ -49,7 +52,8 @@
       300,
       82
     ],
-    "kb": 1232
+    "kb": 1232,
+    "exposure": 1
   },
   {
     "id": "360-x-310-c250-hinge-grate-and-frame",
@@ -62,7 +66,8 @@
       412,
       94
     ],
-    "kb": 1238
+    "kb": 1238,
+    "exposure": 1
   },
   {
     "id": "420-x-420-d400-grate-and-frame",
@@ -75,7 +80,8 @@
       505,
       178
     ],
-    "kb": 990
+    "kb": 990,
+    "exposure": 1
   },
   {
     "id": "450-dia-b125-cvr-and-frm",
