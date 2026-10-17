@@ -106,11 +106,11 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 }
 .card.highlight { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
 
-/* Product stage: light grey */
+/* Product stage: white */
 .card-media {
   position: relative;
   aspect-ratio: 4 / 3;
-  background: radial-gradient(circle at 50% 38%, var(--stage-1) 0%, var(--stage-2) 100%);
+  background: #ffffff;
   /* Finger movement over the model always rotates it (never scrolls the page) */
   touch-action: none;
   -webkit-user-select: none;
