@@ -94,7 +94,7 @@ function createCard(p) {
   mv.setAttribute('environment-image', 'neutral');
   mv.setAttribute('exposure', String(p.exposure ?? 2.6)); // same lighting as the poster thumbnails (dark painted-black models need less)
   mv.setAttribute('tone-mapping', 'neutral');
-  mv.setAttribute('camera-orbit', '35deg 62deg auto');
+  mv.setAttribute('camera-orbit', p.orbit ?? '35deg 62deg auto'); // per product: the text cast on some models reads best from the front
   mv.setAttribute('min-camera-orbit', 'auto 0deg auto'); // allow looking from above and below
   mv.setAttribute('max-camera-orbit', 'auto 180deg auto');
   mv.setAttribute('interaction-prompt', 'none');
