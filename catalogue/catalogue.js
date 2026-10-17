@@ -93,7 +93,7 @@ function createCard(p) {
   mv.setAttribute('camera-controls', '');
   mv.setAttribute('touch-action', 'none'); // one finger rotates freely in every direction
   mv.setAttribute('environment-image', ENV_URL); // studio HDRI: gives the cast iron real depth and highlights
-  mv.setAttribute('exposure', '3.25'); // same lighting as the poster thumbnails
+  mv.setAttribute('exposure', String(p.exposure ?? 3.25)); // same lighting as the poster thumbnails (black painted iron needs less light to stay black)
   mv.setAttribute('environment-intensity', '2.45');
   mv.setAttribute('tone-mapping', 'neutral');
   mv.setAttribute('camera-orbit', p.orbit ?? '35deg 62deg auto'); // per product: the text cast on some models reads best from the front
