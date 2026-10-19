@@ -12,7 +12,7 @@
     ],
     "kb": 826,
     "orbit": "165deg 62deg auto",
-    "exposure": 2.0
+    "exposure": 2
   },
   {
     "id": "24-inch-plain-braker-ring",
@@ -27,7 +27,7 @@
     ],
     "kb": 114,
     "orbit": "165deg 62deg auto",
-    "exposure": 2.0
+    "exposure": 2
   },
   {
     "id": "24-inch-plain-wheel",
@@ -42,7 +42,7 @@
     ],
     "kb": 124,
     "orbit": "165deg 62deg auto",
-    "exposure": 2.0
+    "exposure": 2
   },
   {
     "id": "214-x-214-c250-hinge-grate-and-frm",
@@ -57,7 +57,7 @@
     ],
     "kb": 1232,
     "orbit": "165deg 62deg auto",
-    "exposure": 2.0
+    "exposure": 2
   },
   {
     "id": "360-x-310-c250-hinge-grate-and-frame",
@@ -72,7 +72,7 @@
     ],
     "kb": 1238,
     "orbit": "165deg 62deg auto",
-    "exposure": 2.0
+    "exposure": 2
   },
   {
     "id": "420-x-420-d400-grate-and-frame",
@@ -87,7 +87,7 @@
     ],
     "kb": 990,
     "orbit": "165deg 62deg auto",
-    "exposure": 2.0
+    "exposure": 2
   },
   {
     "id": "450-dia-b125-cvr-and-frm",
@@ -98,10 +98,11 @@
     "dims": [
       545,
       545,
-      61
+      48
     ],
-    "kb": 708,
-    "hidden": true
+    "kb": 1757,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "600-dia-b125-cvr-and-frm",
@@ -112,10 +113,11 @@
     "dims": [
       685,
       685,
-      100
+      78
     ],
-    "kb": 816,
-    "hidden": true
+    "kb": 1754,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "600-dia-d400-circular-cvr-and-frm",
@@ -126,10 +128,11 @@
     "dims": [
       800,
       863,
-      198
+      104
     ],
-    "kb": 1416,
-    "hidden": true
+    "kb": 1798,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "600-x-600-b125-cvr-and-frm",
@@ -140,10 +143,11 @@
     "dims": [
       690,
       690,
-      73
+      44
     ],
-    "kb": 1216,
-    "hidden": true
+    "kb": 1781,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "600-x-600-d400-dt-grate-and-frame",
@@ -152,12 +156,13 @@
     "file": "600-x-600-d400-dt-grate-and-frame.glb",
     "load": "D400",
     "dims": [
-      849,
-      770,
-      187
+      740,
+      740,
+      102
     ],
-    "kb": 1175,
-    "hidden": true
+    "kb": 1853,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "600-x-600-ds-recess-cover-and-frame",
@@ -168,10 +173,11 @@
     "dims": [
       750,
       750,
-      190
+      171
     ],
-    "kb": 434,
-    "hidden": true
+    "kb": 1619,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "600-x-600-x-100-d400-dt-cover-and-frame",
@@ -180,12 +186,13 @@
     "file": "600-x-600-x-100-d400-dt-cover-and-frame.glb",
     "load": "D400",
     "dims": [
-      845,
-      771,
-      145
+      740,
+      740,
+      103
     ],
-    "kb": 1284,
-    "hidden": true
+    "kb": 422,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "750-x-245-co-d400-grate-and-channel",
@@ -195,11 +202,12 @@
     "load": "D400",
     "dims": [
       750,
-      750,
-      120
+      370,
+      68
     ],
-    "kb": 757,
-    "hidden": true
+    "kb": 1747,
+    "orbit": "165deg 62deg auto",
+    "exposure": 2.0
   },
   {
     "id": "1000-x-150-d400-grating-and-ms-rail",
@@ -208,12 +216,12 @@
     "file": "1000-x-150-d400-grating-and-ms-rail.glb",
     "load": "D400",
     "dims": [
-      498,
-      1010,
-      200
+      999,
+      210,
+      107
     ],
-    "kb": 1793,
-    "hidden": true
+    "kb": 483,
+    "exposure": 2.0
   },
   {
     "id": "1000-x-1000-ms-grating",
@@ -237,10 +245,10 @@
     "dims": [
       1365,
       820,
-      225
+      153
     ],
-    "kb": 1413,
-    "hidden": true
+    "kb": 468,
+    "exposure": 2.0
   },
   {
     "id": "3300-grate-frame-and-hood",
@@ -249,12 +257,12 @@
     "file": "3300-grate-frame-and-hood.glb",
     "load": null,
     "dims": [
-      993,
-      864,
-      382
+      5347,
+      5088,
+      1824
     ],
-    "kb": 214,
-    "hidden": true
+    "kb": 1522,
+    "exposure": 2.0
   },
   {
     "id": "4056-surface-box",
@@ -267,8 +275,7 @@
       240,
       258
     ],
-    "kb": 400,
-    "hidden": true
+    "kb": 400
   },
   {
     "id": "counter-weight-32-kg",
@@ -277,12 +284,12 @@
     "file": "counter-weight-32-kg.glb",
     "load": null,
     "dims": [
-      514,
-      62,
-      352
+      515,
+      420,
+      62
     ],
-    "kb": 536,
-    "hidden": true
+    "kb": 1700,
+    "exposure": 2.0
   },
   {
     "id": "ms-frame",
@@ -304,12 +311,11 @@
     "file": "ms-recess-type-cover.glb",
     "load": null,
     "dims": [
-      1489,
-      565,
-      254
+      1513,
+      579,
+      134
     ],
-    "kb": 30,
-    "hidden": true
+    "kb": 672
   },
   {
     "id": "ms-revit-grating",
@@ -318,12 +324,11 @@
     "file": "ms-revit-grating.glb",
     "load": null,
     "dims": [
-      1311,
-      89,
+      1325,
+      575,
       114
     ],
-    "kb": 151,
-    "hidden": true
+    "kb": 908
   },
   {
     "id": "tree-grate-and-frame",
@@ -333,10 +338,10 @@
     "load": null,
     "dims": [
       1256,
-      640,
-      112
+      1256,
+      87
     ],
-    "kb": 911,
-    "hidden": true
+    "kb": 424,
+    "exposure": 2.0
   }
 ]
