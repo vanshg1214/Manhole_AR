@@ -271,11 +271,12 @@
     "file": "4056-surface-box.glb",
     "load": null,
     "dims": [
-      238,
       240,
-      258
+      240,
+      210
     ],
-    "kb": 400
+    "kb": 1700,
+    "exposure": 2.0
   },
   {
     "id": "counter-weight-32-kg",
