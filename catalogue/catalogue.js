@@ -62,6 +62,7 @@ const preloader = new IntersectionObserver(
   { rootMargin: '300px 0px' }
 );
 
+const IS_ANDROID = /Android/i.test(navigator.userAgent);
 const NEEDS_LOADED_MODEL = /iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 
 function ensureLoaded(mv) {
@@ -73,6 +74,17 @@ function ensureLoaded(mv) {
     mv.addEventListener('load', resolve, { once: true });
     setTimeout(resolve, 20000); // don't hang forever on a slow connection
   });
+}
+
+// Android Scene Viewer can't read the Draco/WebP web models, so it gets a plain GLB (public/catalogue-models/ar, made by scripts/make-ar-glb.mjs).
+function openSceneViewer(p) {
+  const file = new URL(`${BASE}catalogue-models/ar/${encodeURIComponent(p.file)}`).href;
+  const fallback = new URL(location.href);
+  fallback.hash = p.id;
+  location.href =
+    `intent://arvr.google.com/scene-viewer/1.2?mode=ar_preferred&disable_occlusion=true&resizable=false&file=${encodeURIComponent(file)}` +
+    `#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;` +
+    `S.browser_fallback_url=${encodeURIComponent(fallback.href)};end;`;
 }
 
 function createCard(p) {
@@ -144,9 +156,12 @@ function createCard(p) {
     if (mv.canActivateAR) {
       try {
         rotator.reset(); // place the model upright in AR
-        // iOS Quick Look builds its AR file from the loaded model, so it has to wait. Android Scene Viewer
-        // only needs the URL, and must be launched inside the tap: awaiting a slow load first made
-        // Chrome drop the user gesture and block the intent (camera never opened).
+        // Android Scene Viewer only needs a URL and must be launched inside the tap (awaiting a slow
+        // load first makes Chrome drop the user gesture). iOS Quick Look builds its file from the loaded model.
+        if (IS_ANDROID) {
+          openSceneViewer(p);
+          return;
+        }
         if (NEEDS_LOADED_MODEL && !mv.loaded) await ensureLoaded(mv);
         await mv.activateAR();
       } catch (err) {
