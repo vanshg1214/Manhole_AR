@@ -63,6 +63,10 @@ const preloader = new IntersectionObserver(
 );
 
 const IS_ANDROID = /Android/i.test(navigator.userAgent);
+// Chrome on Android can run AR itself (WebXR + ARCore): the camera opens inside the page, so the Google app's
+// Scene Viewer, which kept bouncing back on some phones, is only the fallback.
+let webxrAR = false;
+navigator.xr?.isSessionSupported?.('immersive-ar').then((ok) => { webxrAR = ok; }, () => {});
 const NEEDS_LOADED_MODEL = /iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 
 function ensureLoaded(mv) {
@@ -115,9 +119,9 @@ function createCard(p) {
   mv.setAttribute('max-camera-orbit', 'auto 180deg auto');
   mv.setAttribute('interaction-prompt', 'none');
   // Removed disable-zoom so pinch-to-zoom works on mobile
-  // AR: native Scene Viewer (Android) / Quick Look (iPhone + iPad) at true 1:1 scale on the floor
+  // AR at true 1:1 scale on the floor: WebXR in Chrome (Android), Scene Viewer as fallback, Quick Look on iPhone + iPad
   mv.setAttribute('ar', '');
-  mv.setAttribute('ar-modes', 'scene-viewer quick-look');
+  mv.setAttribute('ar-modes', 'webxr scene-viewer quick-look');
   mv.setAttribute('ar-scale', 'fixed');
   mv.setAttribute('ar-placement', 'floor');
   const hidden = document.createElement('button'); // suppress model-viewer's built-in AR button
@@ -153,12 +157,12 @@ function createCard(p) {
   btn.innerHTML = `${AR_ICON}<span>View in your space</span>`;
   btn.addEventListener('click', async () => {
     // Feature-detect instead of sniffing the user agent: iPadOS reports itself as a Mac.
-    if (mv.canActivateAR) {
+    if (mv.canActivateAR || (IS_ANDROID && webxrAR)) {
       try {
         rotator.reset(); // place the model upright in AR
         // Android Scene Viewer only needs a URL and must be launched inside the tap (awaiting a slow
         // load first makes Chrome drop the user gesture). iOS Quick Look builds its file from the loaded model.
-        if (IS_ANDROID) {
+        if (IS_ANDROID && !webxrAR) {
           openSceneViewer(p);
           return;
         }
