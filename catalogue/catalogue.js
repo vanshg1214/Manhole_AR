@@ -62,6 +62,8 @@ const preloader = new IntersectionObserver(
   { rootMargin: '300px 0px' }
 );
 
+const NEEDS_LOADED_MODEL = /iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+
 function ensureLoaded(mv) {
   if (mv.loaded) return Promise.resolve();
   const i = queue.indexOf(mv);
@@ -142,7 +144,10 @@ function createCard(p) {
     if (mv.canActivateAR) {
       try {
         rotator.reset(); // place the model upright in AR
-        await ensureLoaded(mv); // iOS Quick Look needs the model loaded to build its AR file
+        // iOS Quick Look builds its AR file from the loaded model, so it has to wait. Android Scene Viewer
+        // only needs the URL, and must be launched inside the tap: awaiting a slow load first made
+        // Chrome drop the user gesture and block the intent (camera never opened).
+        if (NEEDS_LOADED_MODEL && !mv.loaded) await ensureLoaded(mv);
         await mv.activateAR();
       } catch (err) {
         console.error('AR activation failed:', err);
