@@ -50,6 +50,7 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
   let idleSince = performance.now();
   let raf = 0;
   let visible = true;
+  let inAR = false; // while an AR session runs the model must stay still where it was placed
   let radius0 = 0;
   let target0 = null;
   let pinchDist = 0;
@@ -84,6 +85,7 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
   // fullTilt: the tilt is unlimited too (a complete 360 over the top), still with no sideways lean.
   const MAX_PITCH = fullTilt ? Infinity : (85 * Math.PI) / 180;
   const rotate = (dYaw, dPitch) => {
+    if (inAR) return;
     yaw += dYaw;
     pitch = Math.max(-MAX_PITCH, Math.min(MAX_PITCH, pitch + dPitch));
     apply();
@@ -96,6 +98,7 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     raf = 0;
     const dt = Math.min(0.05, (now - prev) / 1000);
     let moving = false;
+    if (inAR) return;
     if (resetAnim) {
       const t = Math.min(1, (now - resetAnim.t0) / 320);
       const e = 1 - Math.pow(1 - t, 3);
@@ -279,6 +282,21 @@ export function enableFreeRotate(mv, { autoRotate = false, autoRotateSpeed = 0.3
     btn.addEventListener('click', (e) => { e.stopPropagation(); reset(); });
     host.appendChild(btn);
   }
+
+  mv.addEventListener('ar-status', (e) => {
+    const active = e.detail.status === 'session-started' || e.detail.status === 'object-placed';
+    if (active && !inAR) {
+      inAR = true;
+      velX = velY = 0;
+      resetAnim = null;
+      yaw = pitch = 0; // upright, no spin
+      apply();
+    } else if (!active && e.detail.status !== 'object-placed' && inAR) {
+      inAR = false;
+      idleSince = performance.now();
+      schedule();
+    }
+  });
 
   if (autoRotate) {
     new IntersectionObserver((en) => {
