@@ -25,13 +25,16 @@ const qrImage = document.getElementById('qr-image');
 /*
  * Detect what the device can actually do, instead of guessing from the window size or user agent
  * (iPadOS reports itself as a Mac, and a narrow desktop window is still a desktop):
- *  1. modelViewer.canActivateAR is true only where a native AR viewer exists
- *     (Scene Viewer on Android with Google Play Services for AR, Quick Look on iPhone/iPad Safari).
+ *  1. modelViewer.canActivateAR is true only where AR exists (WebXR in Chrome or Scene Viewer on
+ *     Android with Google Play Services for AR, Quick Look on iPhone/iPad Safari).
  *  2. Otherwise, a touch-first device (phone/tablet) gets browser-specific help.
  *  3. Otherwise it is a desktop, which gets a QR code to continue on a phone or tablet.
  */
 const isTouchDevice = () =>
   (navigator.maxTouchPoints || 0) > 0 && window.matchMedia('(any-pointer: coarse)').matches;
+
+const IS_IOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+  (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 
 function ensureModelLoaded() {
   if (!modelViewer || modelViewer.loaded) return Promise.resolve();
@@ -70,7 +73,9 @@ if (customArBtn) {
     if (modelViewer && modelViewer.canActivateAR) {
       try {
         if (rotator) rotator.reset(); // AR (Quick Look) should place the model upright
-        await ensureModelLoaded(); // Quick Look builds its AR file from the loaded model
+        // Only Quick Look (iPhone/iPad) needs the model loaded first. On Android, AR (WebXR in Chrome, or
+        // Scene Viewer as fallback) must start inside the tap, or Chrome drops the gesture and blocks it.
+        if (IS_IOS) await ensureModelLoaded();
         await modelViewer.activateAR();
       } catch (e) {
         console.error('AR activation failed:', e);
