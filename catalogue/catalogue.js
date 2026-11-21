@@ -1,6 +1,7 @@
 import '../src/perf.js'; // must come before model-viewer
 import '@google/model-viewer';
 import { enableFreeRotate } from '../src/freeRotate.js';
+import { triggerAR } from '../src/arHelper.js';
 import products from './products.json';
 
 // Models and posters live in /public/catalogue-models. Resolve from this script's
@@ -62,34 +63,6 @@ const preloader = new IntersectionObserver(
   { rootMargin: '300px 0px' }
 );
 
-const IS_ANDROID = /Android/i.test(navigator.userAgent);
-// Chrome on Android can run AR itself (WebXR + ARCore): the camera opens inside the page, so the Google app's
-// Scene Viewer, which kept bouncing back on some phones, is only the fallback.
-let webxrAR = false;
-navigator.xr?.isSessionSupported?.('immersive-ar').then((ok) => { webxrAR = ok; }, () => {});
-const NEEDS_LOADED_MODEL = /iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
-
-function ensureLoaded(mv) {
-  if (mv.loaded) return Promise.resolve();
-  const i = queue.indexOf(mv);
-  if (i >= 0) queue.splice(i, 1);
-  mv.loading = 'eager';
-  return new Promise((resolve) => {
-    mv.addEventListener('load', resolve, { once: true });
-    setTimeout(resolve, 20000); // don't hang forever on a slow connection
-  });
-}
-
-// Android Scene Viewer can't read the Draco/WebP web models, so it gets a plain GLB (public/catalogue-models/ar, made by scripts/make-ar-glb.mjs).
-function openSceneViewer(p) {
-  const file = new URL(`${BASE}catalogue-models/ar/${encodeURIComponent(p.file)}`).href;
-  const fallback = new URL(location.href);
-  fallback.hash = p.id;
-  location.href =
-    `intent://arvr.google.com/scene-viewer/1.2?mode=ar_preferred&disable_occlusion=true&resizable=false&file=${encodeURIComponent(file)}` +
-    `#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;` +
-    `S.browser_fallback_url=${encodeURIComponent(fallback.href)};end;`;
-}
 
 function createCard(p) {
   const card = document.createElement('article');
@@ -156,23 +129,26 @@ function createCard(p) {
   btn.className = 'btn-ar';
   btn.innerHTML = `${AR_ICON}<span>View in your space</span>`;
   btn.addEventListener('click', async () => {
-    // Feature-detect instead of sniffing the user agent: iPadOS reports itself as a Mac.
-    if (mv.canActivateAR || (IS_ANDROID && webxrAR)) {
-      try {
-        rotator.reset(); // place the model upright in AR
-        // Android Scene Viewer only needs a URL and must be launched inside the tap (awaiting a slow
-        // load first makes Chrome drop the user gesture). iOS Quick Look builds its file from the loaded model.
-        if (IS_ANDROID && !webxrAR) {
-          openSceneViewer(p);
-          return;
-        }
-        if (NEEDS_LOADED_MODEL && !mv.loaded) await ensureLoaded(mv);
-        await mv.activateAR();
-      } catch (err) {
-        console.error('AR activation failed:', err);
-      }
-    } else {
+    const plainGlb = new URL(`${BASE}catalogue-models/ar/${encodeURIComponent(p.file)}`).href;
+    const fallback = new URL(location.href);
+    fallback.hash = p.id;
+
+    // Remove from background preloader queue so current card loads immediately
+    const qIdx = queue.indexOf(mv);
+    if (qIdx >= 0) queue.splice(qIdx, 1);
+
+    const result = await triggerAR({
+      modelViewer: mv,
+      rotator,
+      plainGlbUrl: plainGlb,
+      fallbackUrl: fallback.href,
+      title: p.name,
+    });
+
+    if (result.action === 'show_qr') {
       showQr(p);
+    } else if (result.action === 'ios_inapp') {
+      alert('To view in AR, please open this link in Safari (tap the menu ••• and select "Open in Safari").');
     }
   });
 
