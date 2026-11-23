@@ -97,8 +97,7 @@ function createCard(p) {
   mv.setAttribute('ar-modes', 'webxr scene-viewer quick-look');
   mv.setAttribute('ar-scale', 'fixed');
   mv.setAttribute('ar-placement', 'floor');
-  mv.setAttribute('shadow-intensity', '1.2');
-  mv.setAttribute('shadow-softness', '0.8');
+  mv.setAttribute('shadow-intensity', '0');
   const hidden = document.createElement('button'); // suppress model-viewer's built-in AR button
   hidden.slot = 'ar-button';
   hidden.hidden = true;
